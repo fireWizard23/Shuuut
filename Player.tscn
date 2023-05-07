@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbjfcgdd42dgx"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_7juvt"]
+[ext_resource type="Texture2D" uid="uid://dx7rh4g1lh8ne" path="res://Assets/Characters/Man Blue/manBlue_stand.png" id="1_ph644"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mhvvy"]
+height = 42.0
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_7juvt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+texture = ExtResource("1_ph644")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_mhvvy")
