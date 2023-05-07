@@ -7,6 +7,11 @@ public class BaseState<T, K> where T : struct, Enum where K : Node
 {
     protected StateManager<T, K> stateManager;
 
+    protected void ChangeState(T newState)
+    {
+        stateManager.ChangeState(newState);
+    }
+
     public void Register(StateManager<T, K> stateManager)
     {
         this.stateManager = stateManager;
