@@ -57,12 +57,12 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
         }
     }
 
-    public void Process(float delta)
+    public void Process(double delta)
     {
         CurrentState?.Process(delta);
     }
 
-    public void PhysicsProcess(float delta)
+    public void PhysicsProcess(double delta)
     {
         CurrentState?.PhysicsProcess(delta);
     }

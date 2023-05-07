@@ -36,11 +36,11 @@ public class BaseState<T, K> where T : struct, Enum where K : Node
     }
     
     
-    public virtual void Process(float delta)
+    public virtual void Process(double delta)
     {
     }
 
-    public virtual void PhysicsProcess(float delta)
+    public virtual void PhysicsProcess(double delta)
     {
     }
     
