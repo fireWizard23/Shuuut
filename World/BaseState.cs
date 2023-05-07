@@ -7,6 +7,8 @@ public class BaseState<T, K> where T : struct, Enum where K : Node
 {
     protected StateManager<T, K> stateManager;
 
+    protected K Parent;
+
     protected void ChangeState(T newState)
     {
         stateManager.ChangeState(newState);
@@ -15,6 +17,7 @@ public class BaseState<T, K> where T : struct, Enum where K : Node
     public void Register(StateManager<T, K> stateManager)
     {
         this.stateManager = stateManager;
+        Parent = this.stateManager.Parent;
     }
 
     public virtual void OnEnter()
