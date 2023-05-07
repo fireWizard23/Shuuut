@@ -7,12 +7,16 @@
 radius = 14.0
 height = 44.0
 
-[node name="Zombie" type="CharacterBody2D"]
+[node name="Zombie" type="CharacterBody2D" node_paths=PackedStringArray("PathLine2D")]
 motion_mode = 1
 script = ExtResource("1_s4mqb")
+PathLine2D = NodePath("Line2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ev2b3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_ks8r5")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 5.0

@@ -19,8 +19,11 @@ public partial class ZombieController : CharacterBody2D
 {
 
 	[Export] public float MovementSpeed { get; private set; } = 100;
+	[Export] public Node2D Player;
+	[Export] public Line2D PathLine2D;
 	
 	public Vector2 SpawnPosition { get; private set; }
+
 	
 
 

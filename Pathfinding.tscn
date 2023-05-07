@@ -3,6 +3,9 @@
 [ext_resource type="Script" path="res://World/Pathfinding.cs" id="1_dvowa"]
 
 [node name="Pathfinding" type="Node2D"]
+z_index = 12
 script = ExtResource("1_dvowa")
-MapSize = Vector2i(64, 64)
-CellSize = Vector2i(64, 64)
+enabledColor = Color(0, 1, 0, 0.419608)
+disabledColor = Color(1, 0, 0, 0.392157)
+
+[node name="Grid" type="Node2D" parent="."]
