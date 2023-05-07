@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://t56vlmdsrqm6"]
+
+[ext_resource type="Script" path="res://World/Zombies/ZombieController.cs" id="1_s4mqb"]
+[ext_resource type="Texture2D" uid="uid://byvuta14p71gq" path="res://Assets/Characters/Zombie 1/zoimbie1_hold.png" id="2_ev2b3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ks8r5"]
+radius = 14.0
+height = 44.0
+
+[node name="Zombie" type="CharacterBody2D"]
+script = ExtResource("1_s4mqb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ev2b3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ks8r5")
