@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Godot;
+using Shuuut.World.Zombies;
 
 namespace Shuuut.World;
 
@@ -24,17 +25,18 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
 
         allStates = states;
         int index = 0;
+        T firstState = default;
         foreach (var h in allStates)
         {
                 
             h.Value?.Register(this);
             if (index == 0)
             {
-                ChangeState(h.Key);
-                index++;
+                firstState = h.Key;
             }
+            index++;
         }
-        
+        ChangeState(firstState);
     }
 
     public void ChangeState(T newState)
