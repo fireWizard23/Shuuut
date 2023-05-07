@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj8sj640vy4ar"]
+
+[ext_resource type="Script" path="res://World/Pathfinding.cs" id="1_dvowa"]
+
+[node name="Pathfinding" type="Node2D"]
+script = ExtResource("1_dvowa")
+MapSize = Vector2i(64, 64)
+CellSize = Vector2i(64, 64)

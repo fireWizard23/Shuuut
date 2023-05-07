@@ -11,7 +11,12 @@ config_version=5
 [application]
 
 config/name="Shuuut"
+run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.0", "C#", "GL Compatibility")
+
+[autoload]
+
+Pathfinding="*res://Pathfinding.tscn"
 
 [dotnet]
 
