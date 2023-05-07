@@ -17,17 +17,44 @@ public enum State
 
 public partial class ZombieController : CharacterBody2D
 {
-	private StateManager<State, ZombieController> stateManager;
 
+	[Export] public float MovementSpeed { get; private set; } = 100;
+	
+	public Vector2 SpawnPosition { get; private set; }
+	
+
+
+	private StateManager<State, ZombieController> stateManager;
+	
+		
 	public override void _Ready()
 	{
 		base._Ready();
 		stateManager = new StateManager(
 			new Dictionary<State, BaseState<State, ZombieController>>()
 			{
-				{ State.Idle, new IdleState() }
+				{ State.Idle, new IdleState() },
+				{ State.Wandering , new WanderingState()}
 			},
 			this
 		);
+
+		stateManager.Ready();
+		
+		SpawnPosition = GlobalPosition;
+	}
+
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		stateManager.Process(delta);
+	}
+
+
+	public override void _PhysicsProcess(double delta)
+	{
+		base._PhysicsProcess(delta);
+		stateManager.PhysicsProcess(delta);
+		MoveAndSlide();
 	}
 }
