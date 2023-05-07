@@ -1,12 +1,13 @@
 ﻿using System;
+using Godot;
 
 namespace Shuuut.World;
 
-public class BaseState<T> where T : struct, Enum
+public class BaseState<T, K> where T : struct, Enum where K : Node
 {
-    protected StateManager<T> stateManager;
+    protected StateManager<T, K> stateManager;
 
-    public void Register(StateManager<T> stateManager)
+    public void Register(StateManager<T, K> stateManager)
     {
         this.stateManager = stateManager;
     }

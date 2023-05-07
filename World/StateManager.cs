@@ -4,18 +4,21 @@ using Godot;
 
 namespace Shuuut.World;
 
-public class StateManager<T> where T : struct, Enum
+public class StateManager<T, K> where T : struct, Enum where K : Node
 {
-    private Dictionary<T, BaseState<T>> allStates;
-    public readonly Node Parent;
+    
+    
+    
+    private Dictionary<T, BaseState<T, K>> allStates;
+    public readonly K Parent;
 
-    public BaseState<T> CurrentState { get; private set; }
-    public BaseState<T> PreviousState { get; private set; }
+    public BaseState<T, K> CurrentState { get; private set; }
+    public BaseState<T, K> PreviousState { get; private set; }
 
     public T CurrentStateEnum{ get; private set; }
     public T? PreviousStateEnum { get; private set; }
     
-    public StateManager(Dictionary<T, BaseState<T>> states, Node parent)
+    public StateManager(Dictionary<T, BaseState<T, K> > states, K parent)
     {
         Parent = parent;
 
