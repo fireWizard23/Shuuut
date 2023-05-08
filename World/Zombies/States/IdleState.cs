@@ -22,9 +22,9 @@ public class IdleState : BaseState<State, ZombieController>
             Parent.PathLine2D.Points = path.Select(v => Parent.ToLocal(v)).ToArray();
             Parent.Velocity = Parent.GlobalPosition.DirectionTo(path[1]) * Parent.MovementSpeed;
         }
-        else
+        if(Parent.GlobalPosition.DistanceTo(Parent.Player.GlobalPosition) < 50)
         {
-            Parent.PathLine2D.Points = new Vector2[] { };
+            ChangeState(State.Attacking);
         }
     }
 }

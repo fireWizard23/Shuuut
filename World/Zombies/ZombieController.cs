@@ -37,7 +37,8 @@ public partial class ZombieController : CharacterBody2D
 			new Dictionary<State, BaseState<State, ZombieController>>()
 			{
 				{ State.Idle, new IdleState() },
-				{ State.Wandering , new WanderingState()}
+				{ State.Wandering , new WanderingState()},
+				{ State.Attacking , new AttackingState()}
 			},
 			this
 		);
@@ -60,4 +61,7 @@ public partial class ZombieController : CharacterBody2D
 		stateManager.PhysicsProcess(delta);
 		MoveAndSlide();
 	}
+
+	
+	
 }
