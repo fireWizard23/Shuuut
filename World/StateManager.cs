@@ -66,6 +66,17 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
     {
         CurrentState?.PhysicsProcess(delta);
     }
+
+    public void Destroy()
+    {
+        foreach (var state in allStates.Values)
+        {
+            state.OnDestroy();
+        }
+        
+        
+        
+    }
     
 
 }

@@ -43,6 +43,11 @@ public class BaseState<T, K> where T : struct, Enum where K : Node
     public virtual void PhysicsProcess(double delta)
     {
     }
+
+    public virtual void OnDestroy()
+    {
+        
+    }
     
     
 
