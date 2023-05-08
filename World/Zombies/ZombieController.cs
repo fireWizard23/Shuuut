@@ -62,6 +62,10 @@ public partial class ZombieController : CharacterBody2D
 		MoveAndSlide();
 	}
 
-	
+	public void Destroy()
+	{
+		stateManager.Destroy();
+		QueueFree();
+	}
 	
 }
