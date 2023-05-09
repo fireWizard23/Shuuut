@@ -12,8 +12,9 @@ collision_layer = 16
 collision_mask = 19
 motion_mode = 1
 script = ExtResource("1_s4mqb")
+MovementSpeed = 50.0
 PathLine2D = NodePath("Line2D")
-entitySteerAwayLayer = 16
+entitySteerAwayLayer = 17
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ev2b3")
@@ -22,4 +23,5 @@ texture = ExtResource("2_ev2b3")
 shape = SubResource("CapsuleShape2D_ks8r5")
 
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
 width = 5.0
