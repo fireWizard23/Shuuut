@@ -15,6 +15,8 @@ public partial class Pathfinding : Node
 	[Export] private Color enabledColor = Colors.Green; 
     [Export] private Color disabledColor = Colors.Red;
 
+    [Export] private Node2D debugParent;
+
 
     private AStarGrid2D _aStar = new();
 
@@ -22,6 +24,8 @@ public partial class Pathfinding : Node
     private TileMap tileMap;
 
     private Dictionary<Vector2I, ColorRect> cells = new();
+    
+    
 
     public override void _Ready()
     {
@@ -42,7 +46,7 @@ public partial class Pathfinding : Node
 	    foreach (var usedCell in tile.GetUsedCells(0))
 	    {
 		    var rect = new ColorRect();
-		    AddChild(rect);
+		    debugParent.AddChild(rect);
 		    rect.Size = CellSize;
 		    rect.GlobalPosition = usedCell * CellSize;
 		    rect.Color = enabledColor;
