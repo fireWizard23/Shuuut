@@ -1,4 +1,6 @@
 ﻿
+using System.Globalization;
+using System.IO;
 using Godot;
 
 namespace Shuuut.World.Zombies.States;
@@ -8,12 +10,23 @@ public class WanderingState : BaseState<State, ZombieController>
     private RandomNumberGenerator rng;
 
     private Vector2 TargetPosition;
+    private PhysicsDirectSpaceState2D space;
 
     public override void Ready()
     {
         base.Ready();
         this.rng = new RandomNumberGenerator();
+        Parent.Detector.BodyEntered += DetectorOnBodyEntered;
+        this.space = Parent.GetWorld2D().DirectSpaceState;
     }
+
+    private void DetectorOnBodyEntered(Node2D body)
+    {
+        Parent.Target = body;
+        ChangeState(State.Chasing);
+        GD.Print("BODY DETECTED!");
+    }
+
 
     public override void OnEnter()
     {
@@ -31,8 +44,17 @@ public class WanderingState : BaseState<State, ZombieController>
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);
-        Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(TargetPosition) * Parent.MovementSpeed;
-        if (Parent.GlobalPosition.DistanceSquaredTo(TargetPosition) < 1)
+        // Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(TargetPosition) * Parent.MovementSpeed;
+        var path = Pathfinding.Instance.GetPath(Parent.GlobalPosition, TargetPosition);
+        if (path.Count < 2)
+        {
+            GD.Print("NO PATH!");
+            ChangeTargetPosition();
+            return;
+        }
+
+        Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(path[1]) * Parent.MovementSpeed;
+        if (Parent.GlobalPosition.DistanceSquaredTo(TargetPosition) < 100)
         {
             ChangeTargetPosition();
         }

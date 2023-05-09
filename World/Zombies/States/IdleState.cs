@@ -10,21 +10,15 @@ public class IdleState : BaseState<State, ZombieController>
     {
         base.OnEnter();
         Parent.DesiredVelocity *= 0;
+        if (Parent.Target != null)
+        {
+            ChangeState(State.Chasing);
+        }
     }
 
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);
-        // ChangeState(State.Wandering);
-        var path = Pathfinding.Instance.GetPath(Parent.GlobalPosition, Parent.Player.GlobalPosition);
-        if (path is { Count: > 1 })
-        {
-            Parent.PathLine2D.Points = path.Select(v => Parent.ToLocal(v)).ToArray();
-            Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(path[1]) * Parent.MovementSpeed;
-        }
-        if(Parent.GlobalPosition.DistanceTo(Parent.Player.GlobalPosition) < 50)
-        {
-            ChangeState(State.Attacking);
-        }
+        ChangeState(State.Wandering);
     }
 }

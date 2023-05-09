@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://t56vlmdsrqm6"]
+[gd_scene load_steps=5 format=3 uid="uid://t56vlmdsrqm6"]
 
 [ext_resource type="Script" path="res://World/Zombies/ZombieController.cs" id="1_s4mqb"]
 [ext_resource type="Texture2D" uid="uid://byvuta14p71gq" path="res://Assets/Characters/Zombie 1/zoimbie1_hold.png" id="2_ev2b3"]
@@ -7,13 +7,17 @@
 radius = 14.0
 height = 44.0
 
-[node name="Zombie" type="CharacterBody2D" node_paths=PackedStringArray("PathLine2D")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ghik6"]
+radius = 157.563
+
+[node name="Zombie" type="CharacterBody2D" node_paths=PackedStringArray("PathLine2D", "Detector")]
 collision_layer = 16
 collision_mask = 19
 motion_mode = 1
 script = ExtResource("1_s4mqb")
 MovementSpeed = 50.0
 PathLine2D = NodePath("Line2D")
+Detector = NodePath("Detector")
 entitySteerAwayLayer = 17
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -25,3 +29,11 @@ shape = SubResource("CapsuleShape2D_ks8r5")
 [node name="Line2D" type="Line2D" parent="."]
 visible = false
 width = 5.0
+
+[node name="Detector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 3
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+shape = SubResource("CircleShape2D_ghik6")

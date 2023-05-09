@@ -21,11 +21,12 @@ public partial class ZombieController : CharacterBody2D
 {
 
 	[Export] public float MovementSpeed { get; private set; } = 100;
-	[Export] public Node2D Player;
 	[Export] public Line2D PathLine2D;
+	[Export] public Area2D Detector { get; private set; }
 	[Export(PropertyHint.Layers2DPhysics)] private uint entitySteerAwayLayer;
 	
 	public Vector2 SpawnPosition { get; private set; }
+	public Node2D Target { get; set; }
 
 
 	public Vector2 DesiredVelocity;
@@ -33,6 +34,7 @@ public partial class ZombieController : CharacterBody2D
 	private StateManager<State, ZombieController> stateManager;
 
 	private Array<Rid> exclude;
+	
 	
 		
 	public override void _Ready()
@@ -43,7 +45,9 @@ public partial class ZombieController : CharacterBody2D
 			{
 				{ State.Idle, new IdleState() },
 				{ State.Wandering , new WanderingState()},
-				{ State.Attacking , new AttackingState()}
+				{ State.Attacking , new AttackingState()},
+				{ State.Chasing , new ChasingState()},
+				
 			},
 			this
 		);
@@ -53,6 +57,7 @@ public partial class ZombieController : CharacterBody2D
 		exclude = new Array<Rid>(){ GetRid()};
 		SpawnPosition = GlobalPosition;
 	}
+
 
 	public override void _Draw()
 	{
