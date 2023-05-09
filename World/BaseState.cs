@@ -18,7 +18,10 @@ public class BaseState<T, K> where T : struct, Enum where K : Node
     {
         this.stateManager = stateManager;
         Parent = this.stateManager.Parent;
+        OnRegister();
     }
+    
+    public virtual  void OnRegister() {}
 
     public virtual void OnEnter()
     {
