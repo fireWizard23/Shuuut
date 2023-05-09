@@ -96,7 +96,7 @@ public partial class ZombieController : CharacterBody2D
 		} 
 	}
 
-	Vector2 ContextSteer(Vector2 desiredDirection, uint collisionLayer,int rayCount=8,int rayLength=150)
+	Vector2 ContextSteer(Vector2 desiredDirection, uint collisionLayer,int rayCount=8,int rayLength=100)
 	{
 		var directions = new Vector2[rayCount].Select((v, i) => Vector2.Right.Rotated(2 * i * Mathf.Pi / rayCount)).ToArray();
 		var dangers = new float[rayCount];
