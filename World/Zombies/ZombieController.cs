@@ -74,7 +74,6 @@ public partial class ZombieController : CharacterBody2D
 		base._Process(delta);
 		stateManager.Process(delta);
 		QueueRedraw();
-		stateLabel.Rotation = -Rotation;
 	}
 
 
@@ -87,6 +86,8 @@ public partial class ZombieController : CharacterBody2D
 		Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
 		MoveAndSlide();
 		stateLabel.Text = stateManager.CurrentStateEnum.ToString();
+		stateLabel.Rotation = -Rotation;
+		stateLabel.Position = Vector2.Zero;
 		//Rotation
 		var targetAngle = Velocity.Normalized().Angle();
 		if (Velocity.LengthSquared() > 0)
