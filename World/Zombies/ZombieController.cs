@@ -23,6 +23,7 @@ public partial class ZombieController : CharacterBody2D
 	[Export] public float MovementSpeed { get; private set; } = 100;
 	[Export] public Line2D PathLine2D;
 	[Export] public Area2D Detector { get; private set; }
+	[Export] public Label stateLabel;
 	[Export(PropertyHint.Layers2DPhysics)] private uint entitySteerAwayLayer;
 	
 	public Vector2 SpawnPosition { get; private set; }
@@ -40,6 +41,10 @@ public partial class ZombieController : CharacterBody2D
 	public override void _Ready()
 	{
 		base._Ready();
+		
+		exclude = new Array<Rid>(){ GetRid()};
+		SpawnPosition = GlobalPosition;
+		
 		stateManager = new StateManager(
 			new System.Collections.Generic.Dictionary<State, BaseState<State, ZombieController>>()
 			{
@@ -53,9 +58,6 @@ public partial class ZombieController : CharacterBody2D
 		);
 
 		stateManager.Ready();
-
-		exclude = new Array<Rid>(){ GetRid()};
-		SpawnPosition = GlobalPosition;
 	}
 
 
@@ -70,6 +72,7 @@ public partial class ZombieController : CharacterBody2D
 		base._Process(delta);
 		stateManager.Process(delta);
 		QueueRedraw();
+		stateLabel.Rotation = -Rotation;
 	}
 
 
@@ -79,9 +82,9 @@ public partial class ZombieController : CharacterBody2D
 		stateManager.PhysicsProcess(delta);
 		var ac = ContextSteer(DesiredVelocity.Normalized(), entitySteerAwayLayer);
 		var desiredDirection = DesiredVelocity.Normalized();
-		Velocity = (desiredDirection + ac).Normalized() * DesiredVelocity.Length();
+		Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
 		MoveAndSlide();
-		
+		stateLabel.Text = stateManager.CurrentStateEnum.ToString();
 	}
 
 	Vector2 ContextSteer(Vector2 desiredDirection, uint collisionLayer,int rayCount=8,int rayLength=100)
