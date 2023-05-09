@@ -9,7 +9,7 @@ public class IdleState : BaseState<State, ZombieController>
     public override void OnEnter()
     {
         base.OnEnter();
-        Parent.Velocity *= 0;
+        Parent.DesiredVelocity *= 0;
     }
 
     public override void PhysicsProcess(double delta)
@@ -20,7 +20,7 @@ public class IdleState : BaseState<State, ZombieController>
         if (path is { Count: > 1 })
         {
             Parent.PathLine2D.Points = path.Select(v => Parent.ToLocal(v)).ToArray();
-            Parent.Velocity = Parent.GlobalPosition.DirectionTo(path[1]) * Parent.MovementSpeed;
+            Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(path[1]) * Parent.MovementSpeed;
         }
         if(Parent.GlobalPosition.DistanceTo(Parent.Player.GlobalPosition) < 50)
         {

@@ -24,8 +24,8 @@ public partial class ZombieController : CharacterBody2D
 	
 	public Vector2 SpawnPosition { get; private set; }
 
-	
 
+	public Vector2 DesiredVelocity;
 
 	private StateManager<State, ZombieController> stateManager;
 	
@@ -59,6 +59,7 @@ public partial class ZombieController : CharacterBody2D
 	{
 		base._PhysicsProcess(delta);
 		stateManager.PhysicsProcess(delta);
+		Velocity = DesiredVelocity;
 		MoveAndSlide();
 	}
 

@@ -31,7 +31,7 @@ public class WanderingState : BaseState<State, ZombieController>
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);
-        Parent.Velocity = Parent.GlobalPosition.DirectionTo(TargetPosition) * Parent.MovementSpeed;
+        Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(TargetPosition) * Parent.MovementSpeed;
         if (Parent.GlobalPosition.DistanceSquaredTo(TargetPosition) < 1)
         {
             ChangeTargetPosition();

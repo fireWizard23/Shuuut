@@ -16,7 +16,7 @@ public class AttackingState : BaseState<State, ZombieController>
             return;
         }
         GD.Print("ATTACK!");
-        Parent.Velocity *= 0;
+        Parent.DesiredVelocity *= 0;
         CanAttack = false;
         var timer = Parent.GetTree().CreateTimer(1);
         ChangeState(State.Idle);
