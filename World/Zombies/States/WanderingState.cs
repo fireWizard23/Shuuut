@@ -12,9 +12,9 @@ public class WanderingState : BaseState<State, ZombieController>
     private Vector2 TargetPosition;
     private PhysicsDirectSpaceState2D space;
 
-    public override void Ready()
+    public override void OnRegister()
     {
-        base.Ready();
+        base.OnRegister();
         this.rng = new RandomNumberGenerator();
         Parent.Detector.BodyEntered += DetectorOnBodyEntered;
         this.space = Parent.GetWorld2D().DirectSpaceState;
@@ -37,26 +37,30 @@ public class WanderingState : BaseState<State, ZombieController>
     void ChangeTargetPosition()
     {
         var direction = Vector2.Right.Rotated(rng.RandiRange(0, 360));
-        var length = rng.RandiRange(0, 200);
+        var length = rng.RandfRange(0.8f,3) * 64;
         TargetPosition = Parent.SpawnPosition +  direction * length;
     }
+    
+    
 
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);
         // Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(TargetPosition) * Parent.MovementSpeed;
         var path = Pathfinding.Instance.GetPath(Parent.GlobalPosition, TargetPosition);
-        if (path.Count < 2)
+        if (path.Count == 0)
         {
             GD.Print("NO PATH!");
             ChangeTargetPosition();
             return;
         }
 
-        Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(path[1]) * Parent.MovementSpeed;
-        if (Parent.GlobalPosition.DistanceSquaredTo(TargetPosition) < 100)
+        var go = path.Count == 1 ? path[0] : path[1];
+        Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(go) * Parent.MovementSpeed;
+        if (Parent.GlobalPosition.DistanceTo(TargetPosition) < 32 || (path.Count == 1 && Parent.GlobalPosition.DistanceTo(path[0]) < 32))
         {
-            ChangeTargetPosition();
+            // ChangeTargetPosition();
+            ChangeState(State.Idle);
         }
     }
 }
