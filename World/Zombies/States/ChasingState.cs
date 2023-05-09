@@ -15,10 +15,13 @@ public class ChasingState : BaseState<State, ZombieController>
         {
             Parent.PathLine2D.Points = path.Select(v => Parent.ToLocal(v)).ToArray();
             Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(path[1]) * Parent.MovementSpeed;
+        } else if (path.Count == 1)
+        {
+            Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(path[0]);
         }
 
         var distance = Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition);
-        if(distance < 32)
+        if(distance <= 42)
         {
             ChangeState(State.Attacking);
         } else if (distance > Constants.Tile.Size*12)
