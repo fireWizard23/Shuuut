@@ -7,15 +7,15 @@ namespace Shuuut.World.Zombies.States;
 
 public class WanderingState : BaseState<State, ZombieController> 
 {
-    private RandomNumberGenerator rng;
 
     private Vector2 TargetPosition;
     private PhysicsDirectSpaceState2D space;
+    private RandomNumberGenerator rng;
 
     public override void OnRegister()
     {
         base.OnRegister();
-        this.rng = new RandomNumberGenerator();
+        this.rng = Parent.Rng;
         Parent.Detector.BodyEntered += DetectorOnBodyEntered;
         this.space = Parent.GetWorld2D().DirectSpaceState;
     }

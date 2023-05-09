@@ -35,7 +35,8 @@ public partial class ZombieController : CharacterBody2D
 	private StateManager<State, ZombieController> stateManager;
 
 	private Array<Rid> exclude;
-	
+	public RandomNumberGenerator Rng = new();
+
 	
 		
 	public override void _Ready()
@@ -44,6 +45,7 @@ public partial class ZombieController : CharacterBody2D
 		
 		exclude = new Array<Rid>(){ GetRid()};
 		SpawnPosition = GlobalPosition;
+		Rng.Randomize();
 		
 		stateManager = new StateManager(
 			new System.Collections.Generic.Dictionary<State, BaseState<State, ZombieController>>()
