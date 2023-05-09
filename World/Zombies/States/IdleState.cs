@@ -22,9 +22,10 @@ public class IdleState : BaseState<State, ZombieController>
             return;
         }
 
-        if (stateManager.PreviousStateEnum == State.Wandering)
+        if (stateManager.PreviousStateEnum is State.Wandering or State.Chasing)
         {
-            await Parent.ToSignal(Parent.GetTree().CreateTimer(Parent.Rng.RandfRange(0.2f, 2)), SceneTreeTimer.SignalName.Timeout);
+            await Parent.ToSignal(Parent.GetTree().CreateTimer(Parent.Rng.RandfRange(1,2)), SceneTreeTimer.SignalName.Timeout);
+            if (stateManager.CurrentStateEnum != State.Idle) return;
             ChangeState(State.Wandering);
         }
         
