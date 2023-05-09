@@ -18,10 +18,10 @@ public class ChasingState : BaseState<State, ZombieController>
         }
 
         var distance = Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition);
-        if(distance < 50)
+        if(distance < 32)
         {
             ChangeState(State.Attacking);
-        } else if (distance > 300)
+        } else if (distance > Constants.Tile.Size*12)
         {
             Parent.Target = null;
             ChangeState(State.Idle);
