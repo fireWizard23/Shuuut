@@ -87,6 +87,12 @@ public partial class ZombieController : CharacterBody2D
 		Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
 		MoveAndSlide();
 		stateLabel.Text = stateManager.CurrentStateEnum.ToString();
+		//Rotation
+		var targetAngle = Velocity.Normalized().Angle();
+		if (Velocity.LengthSquared() > 0)
+		{
+			Rotation = (float)Mathf.LerpAngle(Rotation, targetAngle, 8 * delta);
+		} 
 	}
 
 	Vector2 ContextSteer(Vector2 desiredDirection, uint collisionLayer,int rayCount=8,int rayLength=100)
