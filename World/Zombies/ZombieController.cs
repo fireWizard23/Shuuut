@@ -66,7 +66,7 @@ public partial class ZombieController : CharacterBody2D
 	public override void _Draw()
 	{
 		base._Draw();
-		DrawLine(Vector2.Zero, Velocity, Colors.Aqua);
+		// DrawLine(Vector2.Zero, Velocity, Colors.Aqua);
 	}
 
 	public override void _Process(double delta)
@@ -81,7 +81,7 @@ public partial class ZombieController : CharacterBody2D
 	{
 		base._PhysicsProcess(delta);
 		stateManager.PhysicsProcess(delta);
-		var ac = ContextSteer(DesiredVelocity.Normalized(), entitySteerAwayLayer);
+		var ac = stateManager.CurrentStateEnum == State.Attacking ? Vector2.Zero :  ContextSteer(DesiredVelocity.Normalized(), entitySteerAwayLayer);
 		var desiredDirection = DesiredVelocity.Normalized();
 		Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
 		MoveAndSlide();
@@ -96,7 +96,7 @@ public partial class ZombieController : CharacterBody2D
 		} 
 	}
 
-	Vector2 ContextSteer(Vector2 desiredDirection, uint collisionLayer,int rayCount=8,int rayLength=100)
+	Vector2 ContextSteer(Vector2 desiredDirection, uint collisionLayer,int rayCount=8,int rayLength=150)
 	{
 		var directions = new Vector2[rayCount].Select((v, i) => Vector2.Right.Rotated(2 * i * Mathf.Pi / rayCount)).ToArray();
 		var dangers = new float[rayCount];
