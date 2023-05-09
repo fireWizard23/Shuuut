@@ -24,7 +24,6 @@ public class IdleState : BaseState<State, ZombieController>
 
         if (stateManager.PreviousStateEnum == State.Wandering)
         {
-            GD.Print("AWAITING TIMER!");
             await Parent.ToSignal(Parent.GetTree().CreateTimer(Parent.Rng.RandfRange(0.2f, 2)), SceneTreeTimer.SignalName.Timeout);
             ChangeState(State.Wandering);
         }
