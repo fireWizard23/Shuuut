@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://brypupjdayoie"]
+[gd_scene load_steps=5 format=3 uid="uid://u12tqa3as7qk"]
 
 [ext_resource type="TileSet" uid="uid://uju2xukaak40" path="res://World/TileSets.tres" id="1_aawxn"]
 [ext_resource type="PackedScene" uid="uid://bbjfcgdd42dgx" path="res://Player/Player.tscn" id="1_qn2bt"]
@@ -16,10 +16,16 @@ script = ExtResource("2_8knmv")
 [node name="WallsObstacles" type="TileMap" parent="." groups=["navigation_solids"]]
 tile_set = ExtResource("1_aawxn")
 format = 2
-layer_0/tile_data = PackedInt32Array(196609, 1114113, 16, 196611, 1114113, 16, 393219, 917505, 16, 393220, 1048577, 16, 393225, 1507329, 14, 327689, 1441793, 13, 458761, 1507329, 14, 524297, 1507329, 14, 589833, 1507329, 15, 524294, 1376257, 14, 589830, 1376257, 14, 458758, 1376257, 14, 393222, 1376257, 14, 327686, 1376257, 13, 262151, 1507329, 15, 196615, 1376257, 13, 196616, 1441793, 12, 196617, 1441793, 12, 196618, 1441793, 12, 196619, 1507329, 12, 327690, 1441793, 12, 327691, 1441793, 12, 327692, 1507329, 12, 720902, 1376257, 15, 720903, 1441793, 12, 720904, 1441793, 12, 720905, 1441793, 12, 720906, 1507329, 12, 655366, 1376257, 14)
+layer_0/tile_data = PackedInt32Array(196609, 1114113, 16, 196611, 1114113, 16, 393219, 917505, 16, 393220, 1048577, 16, 262146, 1114113, 16)
 
 [node name="Player" parent="." instance=ExtResource("1_qn2bt")]
-position = Vector2(112, 365)
+position = Vector2(201, 254)
 
 [node name="Zombie" parent="." instance=ExtResource("2_mgsnl")]
-position = Vector2(536, 291)
+position = Vector2(896, 443)
+
+[node name="Zombie2" parent="." instance=ExtResource("2_mgsnl")]
+position = Vector2(796, 483)
+
+[node name="Zombie3" parent="." instance=ExtResource("2_mgsnl")]
+position = Vector2(525, 336)
