@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection;
 
 namespace Shuuut.World.Weapons;
 
@@ -11,6 +12,8 @@ public partial class Knife : Node2D
 	private bool isEquipped = false;
 	private bool attacking;
 
+	private bool inAnimation = false;
+	
 	public override void _Ready()
 	{
 		handler = GetParent() as WeaponHandler;
@@ -18,7 +21,6 @@ public partial class Knife : Node2D
 		var knife = GetChild<Node2D>(0);
 		knife.Position = Vector2.Right.Rotated(Mathf.DegToRad(-30)) * handler.WeaponDistanceFromHandler ;
 		Enable(isEquipped);
-		
 	}
 
 	void Enable(bool v=true)
@@ -29,26 +31,38 @@ public partial class Knife : Node2D
 
 	public void Use()
 	{
-		if (Input.IsActionJustPressed("attack") && !attacking)
+		if (!inAnimation && Input.IsActionJustPressed("attack") && !attacking)
 		{
 			Attack();
 		}
 	}
 
-	public void Sheath()
+	public async void Sheath()
 	{
-		Hide();
+		
+		//Hide();
+		inAnimation = true;
+		
+		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
+		tween.TweenProperty(this, "modulate:a", 0, 0.25f);
+		await ToSignal(tween, Tween.SignalName.Finished);
+		inAnimation = false;
 		Enable(false);
 	}
 
-	public void UnSheath()
+	public async void UnSheath()
 	{
-		Show();
+		inAnimation = true;
+		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
+		tween.TweenProperty(this, "modulate:a", 1, 0.25f);
+		await ToSignal(tween, Tween.SignalName.Finished);
+		inAnimation = false;
 		Enable();
 	}
 
 	async void Attack()
 	{
+		inAnimation = true;
 		attacking = true;
 		GD.Print("ATTACK");
 
@@ -56,7 +70,9 @@ public partial class Knife : Node2D
 		
 		var windup = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		windup.TweenProperty(this, "rotation", Rotation-Mathf.DegToRad(90), 0.15f);
+		
 		await ToSignal(windup, Tween.SignalName.Finished);
+		
 		var attackSpeed = 0.15f / 2;
 		var attack1 = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut).SetParallel();
 		attack1.TweenProperty(this, "rotation", origRot, attackSpeed).SetDelay(0.15f);
@@ -72,7 +88,8 @@ public partial class Knife : Node2D
 		await ToSignal(attack2, Tween.SignalName.Finished);
 
 		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
-		
+
+		inAnimation = false;
 		this.attacking = false;
 		Rotation = 0;
 
