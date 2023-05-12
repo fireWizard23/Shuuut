@@ -1,16 +1,25 @@
 using Godot;
 using System;
+using Shuuut.World.Weapons;
 
 public partial class Player : CharacterBody2D
 {
 	[Export]
 	public const float Speed = 300.0f;
 
+	[Export] private WeaponHandler _weaponHandler;
+
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
 		LookAt(GetGlobalMousePosition());
+		if (Input.IsActionJustPressed("attack"))
+		{
+			_weaponHandler.UseWeapon();
+		}
 	}
+	
+	
 
 	public override void _PhysicsProcess(double delta)
 	{

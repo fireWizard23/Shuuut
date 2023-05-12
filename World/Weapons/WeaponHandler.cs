@@ -1,10 +1,21 @@
 using Godot;
-using System;
-using Shuuut;
+
+namespace Shuuut.World.Weapons;
+
+
+
+enum State
+{
+	InSheath,
+	Ready
+}
 
 public partial class WeaponHandler : Node2D
 {
 	private float _weaponDistanceFromHandler = 0.5f;
+
+
+	private State currentState = State.InSheath;
 
 	public float WeaponDistanceFromHandler
 	{
@@ -18,6 +29,7 @@ public partial class WeaponHandler : Node2D
 	{
 		base._Ready();
 		_knife = GetChild<Knife>(0);
+		_knife.Sheath();
 		EquipWeapon();
 	}
 
@@ -29,6 +41,21 @@ public partial class WeaponHandler : Node2D
 	public void UnequipWeapon()
 	{
 		_knife.OnUnequip();
+	}
+
+	public void UseWeapon()
+	{
+		switch (currentState)
+		{
+			case State.InSheath:
+				EquipWeapon();
+				currentState = State.Ready;
+				_knife.UnSheath();
+				break;
+			case State.Ready:
+				_knife.Use();
+				break;
+		}
 	}
 	
 	

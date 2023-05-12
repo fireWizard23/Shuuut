@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace Shuuut.World.Weapons;
+
 public partial class Knife : Node2D
 {
 
@@ -15,8 +17,6 @@ public partial class Knife : Node2D
 		
 		var knife = GetChild<Node2D>(0);
 		knife.Position = Vector2.Right.Rotated(Mathf.DegToRad(-30)) * handler.WeaponDistanceFromHandler ;
-		
-		
 		Enable(isEquipped);
 		
 	}
@@ -27,9 +27,29 @@ public partial class Knife : Node2D
 		SetPhysicsProcess(v);
 	}
 
+	public void Use()
+	{
+		if (Input.IsActionJustPressed("attack") && !attacking)
+		{
+			Attack();
+		}
+	}
+
+	public void Sheath()
+	{
+		Hide();
+		Enable(false);
+	}
+
+	public void UnSheath()
+	{
+		Show();
+		Enable();
+	}
+
 	async void Attack()
 	{
-		this.attacking = true;
+		attacking = true;
 		GD.Print("ATTACK");
 
 		var origRot = Rotation;
@@ -59,14 +79,6 @@ public partial class Knife : Node2D
 
 	}
 	
-
-	public override void _Process(double delta)
-	{
-		if (Input.IsActionJustPressed("attack") && !attacking)
-		{
-			Attack();
-		}
-	}
 
 	public void OnEquip()
 	{
