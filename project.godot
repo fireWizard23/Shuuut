@@ -18,6 +18,12 @@ config/features=PackedStringArray("4.0", "C#", "GL Compatibility")
 
 Pathfinding="*res://Pathfinding.tscn"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/mode=3
+
 [dotnet]
 
 project/assembly_name="Shuuut"
