@@ -17,6 +17,11 @@ public partial class Player : CharacterBody2D
 		{
 			_weaponHandler.UseWeapon();
 		}
+
+		if (Input.IsActionJustPressed("switch_weapon_up"))
+		{
+			_weaponHandler.UnequipWeapon();
+		}
 	}
 	
 	

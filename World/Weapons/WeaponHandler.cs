@@ -38,9 +38,13 @@ public partial class WeaponHandler : Node2D
 		_knife.OnEquip();
 	}
 
-	public void UnequipWeapon()
+	public async void UnequipWeapon()
 	{
+		await _knife.currentAnimation.WaitAsync();
+		await _knife.Sheath();
 		_knife.OnUnequip();
+		currentState = State.InSheath;
+		_knife.currentAnimation.Release();
 	}
 
 	public void UseWeapon()

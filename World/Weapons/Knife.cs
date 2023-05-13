@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Shuuut.World.Weapons;
 
@@ -8,6 +10,8 @@ public partial class Knife : Node2D
 {
 
 	private WeaponHandler handler;
+
+	public SemaphoreSlim currentAnimation = new(1);
 
 	private bool isEquipped = false;
 	private bool attacking;
@@ -37,12 +41,11 @@ public partial class Knife : Node2D
 		}
 	}
 
-	public async void Sheath()
+	public async Task Sheath()
 	{
 		
 		//Hide();
 		inAnimation = true;
-		
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		tween.TweenProperty(this, "modulate:a", 0, 0.25f);
 		await ToSignal(tween, Tween.SignalName.Finished);
@@ -67,7 +70,7 @@ public partial class Knife : Node2D
 		GD.Print("ATTACK");
 
 		var origRot = Rotation;
-		
+		await currentAnimation.WaitAsync();
 		var windup = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		windup.TweenProperty(this, "rotation", Rotation-Mathf.DegToRad(90), 0.15f);
 		
@@ -90,9 +93,9 @@ public partial class Knife : Node2D
 		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
 		inAnimation = false;
-		this.attacking = false;
+		attacking = false;
 		Rotation = 0;
-
+		currentAnimation.Release();
 
 	}
 	
