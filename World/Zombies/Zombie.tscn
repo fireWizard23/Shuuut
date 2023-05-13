@@ -1,7 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://t56vlmdsrqm6"]
+[gd_scene load_steps=7 format=3 uid="uid://t56vlmdsrqm6"]
 
 [ext_resource type="Script" path="res://World/Zombies/ZombieController.cs" id="1_s4mqb"]
+[ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/hurtbox.tscn" id="2_2ax57"]
 [ext_resource type="Texture2D" uid="uid://byvuta14p71gq" path="res://Assets/Characters/Zombie 1/zoimbie1_hold.png" id="2_ev2b3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ra835"]
+radius = 13.0
+height = 42.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u41fn"]
 radius = 12.1655
@@ -20,10 +25,17 @@ Detector = NodePath("Detector")
 stateLabel = NodePath("Label")
 entitySteerAwayLayer = 17
 
+[node name="Hurtbox" parent="." instance=ExtResource("2_2ax57")]
+collision_layer = 9
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_ra835")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ev2b3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_u41fn")
 
 [node name="Line2D" type="Line2D" parent="."]
@@ -32,6 +44,7 @@ points = PackedVector2Array(0, 0, 107, 4)
 width = 5.0
 
 [node name="Detector" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 3
 monitorable = false
@@ -45,3 +58,7 @@ offset_top = -44.0
 offset_right = 20.0
 offset_bottom = -18.0
 text = "State"
+
+[connection signal="OnHurt" from="Hurtbox" to="." method="_on_hurtbox_on_hurt"]
+
+[editable path="Hurtbox"]

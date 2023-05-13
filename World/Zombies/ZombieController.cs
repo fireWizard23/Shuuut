@@ -1,7 +1,9 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Godot;
 using Godot.Collections;
+using Shuuut.Scripts;
 using Shuuut.World.Zombies.States;
 
 namespace Shuuut.World.Zombies;
@@ -25,6 +27,7 @@ public partial class ZombieController : CharacterBody2D
 	[Export] public Area2D Detector { get; private set; }
 	[Export] public Label stateLabel;
 	[Export(PropertyHint.Layers2DPhysics)] private uint entitySteerAwayLayer;
+	
 	
 	public Vector2 SpawnPosition { get; private set; }
 	public Node2D Target { get; set; }
@@ -150,6 +153,13 @@ public partial class ZombieController : CharacterBody2D
 	{
 		stateManager.Destroy();
 		QueueFree();
+	}
+
+	public void _on_hurtbox_on_hurt(DamageInfo damageInfo)
+	{
+		damageInfo.Dispose();
+		GD.Print(Name, " Got hurt by ", damageInfo.Damage);
+		Destroy();
 	}
 	
 }

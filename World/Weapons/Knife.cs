@@ -3,11 +3,14 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Shuuut.Scripts;
 
 namespace Shuuut.World.Weapons;
 
 public partial class Knife : Node2D
 {
+
+	[Export] private Hitbox hitbox;
 
 	private WeaponHandler handler;
 
@@ -17,6 +20,11 @@ public partial class Knife : Node2D
 	private bool attacking;
 
 	private bool inAnimation = false;
+
+	public void SetAttackMask(uint mask)
+	{
+		hitbox.CollisionMask = mask;
+	}
 	
 	public override void _Ready()
 	{
@@ -67,7 +75,6 @@ public partial class Knife : Node2D
 	{
 		inAnimation = true;
 		attacking = true;
-		GD.Print("ATTACK");
 
 		var origRot = Rotation;
 		await currentAnimation.WaitAsync();
@@ -76,6 +83,7 @@ public partial class Knife : Node2D
 		
 		await ToSignal(windup, Tween.SignalName.Finished);
 		
+		hitbox.TurnOn();
 		var attackSpeed = 0.15f / 2;
 		var attack1 = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut).SetParallel();
 		attack1.TweenProperty(this, "rotation", origRot, attackSpeed).SetDelay(0.15f);
@@ -89,6 +97,8 @@ public partial class Knife : Node2D
 		attack2.TweenProperty(this, "rotation", origRot + Mathf.DegToRad(90), attackSpeed);
 		
 		await ToSignal(attack2, Tween.SignalName.Finished);
+		
+		hitbox.TurnOff();
 
 		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
@@ -111,6 +121,14 @@ public partial class Knife : Node2D
 		isEquipped = false;
 		Enable(isEquipped);
 	}
-	
+
+	public void _on_hitbox_on_hitbox_hit(Hurtbox hurtbox)
+	{
+		hurtbox.Hurt(new DamageInfo()
+		{
+			Damage =  10,
+			Source =  this
+		});
+	}
 	
 }

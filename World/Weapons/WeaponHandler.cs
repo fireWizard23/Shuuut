@@ -29,6 +29,8 @@ public partial class WeaponHandler : Node2D
 	{
 		base._Ready();
 		_knife = GetChild<Knife>(0);
+		_knife.SetAttackMask(
+			((Player)GetParent()).AttackMask );
 		_knife.Sheath();
 		EquipWeapon();
 	}

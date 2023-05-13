@@ -9,6 +9,8 @@ public partial class Player : CharacterBody2D
 
 	[Export] private WeaponHandler _weaponHandler;
 
+	[Export(PropertyHint.Layers2DPhysics)] public uint AttackMask;
+
 	public override void _Process(double delta)
 	{
 		base._Process(delta);

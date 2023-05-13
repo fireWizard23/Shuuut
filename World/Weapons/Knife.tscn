@@ -1,12 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://k2ri05oga4cr"]
+[gd_scene load_steps=5 format=3 uid="uid://k2ri05oga4cr"]
 
 [ext_resource type="Script" path="res://World/Weapons/Knife.cs" id="1_vp4vs"]
 [ext_resource type="Texture2D" uid="uid://0ok4jomow4is" path="res://Assets/knife.png" id="2_aquni"]
+[ext_resource type="PackedScene" uid="uid://j2648ewboi8t" path="res://Scripts/hitbox.tscn" id="3_xrbon"]
 
-[node name="Knife" type="Node2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ti6lk"]
+radius = 3.06987
+height = 26.2286
+
+[node name="Knife" type="Node2D" node_paths=PackedStringArray("hitbox")]
+scale = Vector2(1, 0.977239)
 script = ExtResource("1_vp4vs")
+hitbox = NodePath("Sprite2D/Hitbox")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -1.5708
 scale = Vector2(0.012, 0.012)
 texture = ExtResource("2_aquni")
+
+[node name="Hitbox" parent="Sprite2D" instance=ExtResource("3_xrbon")]
+rotation = 1.5708
+scale = Vector2(83.3333, 83.3333)
+
+[node name="CollisionShape2D" parent="Sprite2D/Hitbox" index="0"]
+position = Vector2(6.95076, -1.02328)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ti6lk")
+disabled = true
+
+[connection signal="OnHitboxHit" from="Sprite2D/Hitbox" to="." method="_on_hitbox_on_hitbox_hit"]
+
+[editable path="Sprite2D/Hitbox"]

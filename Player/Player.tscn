@@ -1,20 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://bbjfcgdd42dgx"]
+[gd_scene load_steps=8 format=3 uid="uid://bbjfcgdd42dgx"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_a2go8"]
 [ext_resource type="Texture2D" uid="uid://dx7rh4g1lh8ne" path="res://Assets/Characters/Man Blue/manBlue_stand.png" id="2_n4e54"]
 [ext_resource type="PackedScene" uid="uid://8knc8vxvk1h1" path="res://World/Weapons/weapon_handler.tscn" id="3_v1ay4"]
 [ext_resource type="PackedScene" uid="uid://k2ri05oga4cr" path="res://World/Weapons/Knife.tscn" id="4_dtejd"]
+[ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/hurtbox.tscn" id="5_qiyv2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y5eki"]
 radius = 11.4018
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7wkqt"]
+radius = 9.0
+height = 42.0
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weaponHandler")]
-rotation = -1.1781
 collision_layer = 2
 collision_mask = 19
 motion_mode = 1
 script = ExtResource("1_a2go8")
 _weaponHandler = NodePath("WeaponHandler")
+AttackMask = 8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, 0)
@@ -27,3 +32,11 @@ shape = SubResource("CircleShape2D_y5eki")
 
 [node name="Knife" parent="WeaponHandler" instance=ExtResource("4_dtejd")]
 rotation = -6.28319
+
+[node name="Hurtbox" parent="." instance=ExtResource("5_qiyv2")]
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_7wkqt")
+
+[editable path="Hurtbox"]
