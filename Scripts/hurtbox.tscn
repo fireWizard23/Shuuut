@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ht2alqa7f206"]
+
+[ext_resource type="Script" path="res://Scripts/Hurtbox.cs" id="1_lv2r2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8awou"]
+
+[node name="Hurtbox" type="Area2D"]
+monitoring = false
+script = ExtResource("1_lv2r2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8awou")
