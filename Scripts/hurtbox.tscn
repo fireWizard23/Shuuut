@@ -5,6 +5,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_8awou"]
 
 [node name="Hurtbox" type="Area2D"]
+collision_mask = 0
 monitoring = false
 script = ExtResource("1_lv2r2")
 

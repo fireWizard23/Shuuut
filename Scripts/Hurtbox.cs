@@ -13,4 +13,9 @@ public partial class Hurtbox : Area2D
     [Signal]
     public delegate void OnHurtEventHandler(DamageInfo d);
 
+    public void Hurt(DamageInfo d)
+    {
+        EmitSignal(SignalName.OnHurt, d);
+    }
+
 }
