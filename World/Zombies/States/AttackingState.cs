@@ -23,7 +23,6 @@ public class AttackingState : BaseState<State, ZombieController>
         {
             return;
         }
-        GD.Print("ATTACK!");
         CanAttack = false;
         var timer = Parent.GetTree().CreateTimer(1);
         await Parent.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
