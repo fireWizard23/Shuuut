@@ -12,18 +12,19 @@ public class AttackingState : BaseState<State, ZombieController>
     {
         base.OnEnter();
         Parent.DesiredVelocity *= 0;
-        
         Attack();
     }
 
     private async void Attack()
     {
+        CanAttack = false;
         await Parent.ToSignal(Parent.GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
         if (stateManager.CurrentStateEnum != State.Attacking)
         {
+            CanAttack = true;
             return;
         }
-        CanAttack = false;
+        Parent.WeaponHandler.UseWeapon();
         var timer = Parent.GetTree().CreateTimer(1);
         await Parent.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         CanAttack = true;
@@ -36,7 +37,7 @@ public class AttackingState : BaseState<State, ZombieController>
         if (!CanAttack && Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f)
         {
             ChangeState(State.Idle);
-        } else if (CanAttack)
+        }  else if (CanAttack)
         {
             Attack();
         }

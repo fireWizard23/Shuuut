@@ -2,8 +2,9 @@ using Godot;
 using System;
 using Shuuut.Scripts;
 using Shuuut.World.Weapons;
+using Shuuut.World.Zombies;
 
-public partial class Player : CharacterBody2D
+public partial class Player : CharacterBody2D, IAttacker
 {
 	[Export]
 	public const float Speed = 100.0f;
@@ -11,7 +12,7 @@ public partial class Player : CharacterBody2D
 	[Export] private WeaponHandler _weaponHandler;
 	[Export] private HealthController _healthController;
 
-	[Export(PropertyHint.Layers2DPhysics)] public uint AttackMask;
+	[Export(PropertyHint.Layers2DPhysics)] public uint AttackMask { get; set;}
 
 	public override void _Process(double delta)
 	{
@@ -59,7 +60,7 @@ public partial class Player : CharacterBody2D
 
 	public void _on_health_on_health_zero()
 	{
-		GD.Print(" PLAYER DIED!");
+		QueueFree();	
 	}
-	
+
 }

@@ -11,20 +11,13 @@ public partial class Knife : BaseMeleeWeapon
 {
 
 	
-	public SemaphoreSlim currentAnimation = new(1);
 
 	private bool attacking;
 
-	public void SetAttackMask(uint mask)
-	{
-		hitbox.CollisionMask = mask;
-	}
-	
 
 
-	public void Use()
+	public override void Use()
 	{
-		GD.Print(currentAnimation.CurrentCount);
 		if (currentAnimation.CurrentCount != 0 && Input.IsActionJustPressed("attack") && !attacking)
 		{
 			Attack();

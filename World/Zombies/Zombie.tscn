@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://t56vlmdsrqm6"]
+[gd_scene load_steps=10 format=3 uid="uid://t56vlmdsrqm6"]
 
 [ext_resource type="Script" path="res://World/Zombies/ZombieController.cs" id="1_s4mqb"]
 [ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/hurtbox.tscn" id="2_2ax57"]
 [ext_resource type="Texture2D" uid="uid://byvuta14p71gq" path="res://Assets/Characters/Zombie 1/zoimbie1_hold.png" id="2_ev2b3"]
 [ext_resource type="Script" path="res://World/HealthController.cs" id="4_tuw6m"]
+[ext_resource type="PackedScene" uid="uid://8knc8vxvk1h1" path="res://World/Weapons/weapon_handler.tscn" id="5_xwfhe"]
+[ext_resource type="PackedScene" uid="uid://cfceleysjka87" path="res://World/Weapons/Fist/fist.tscn" id="6_epsl6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ra835"]
 radius = 13.0
@@ -15,7 +17,7 @@ radius = 12.1655
 [sub_resource type="CircleShape2D" id="CircleShape2D_ghik6"]
 radius = 157.563
 
-[node name="Zombie" type="CharacterBody2D" node_paths=PackedStringArray("PathLine2D", "Detector", "stateLabel", "HealthController")]
+[node name="Zombie" type="CharacterBody2D" node_paths=PackedStringArray("PathLine2D", "Detector", "stateLabel", "HealthController", "WeaponHandler")]
 collision_layer = 16
 collision_mask = 19
 motion_mode = 1
@@ -25,6 +27,8 @@ PathLine2D = NodePath("Line2D")
 Detector = NodePath("Detector")
 stateLabel = NodePath("Label")
 HealthController = NodePath("Health")
+WeaponHandler = NodePath("WeaponHandler")
+AttackMask = 4
 entitySteerAwayLayer = 17
 
 [node name="Hurtbox" parent="." instance=ExtResource("2_2ax57")]
@@ -63,6 +67,10 @@ text = "State"
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("4_tuw6m")
+
+[node name="WeaponHandler" parent="." instance=ExtResource("5_xwfhe")]
+
+[node name="Fist" parent="WeaponHandler" instance=ExtResource("6_epsl6")]
 
 [connection signal="OnHurt" from="Hurtbox" to="." method="_on_hurtbox_on_hurt"]
 [connection signal="OnHealthZero" from="Health" to="." method="_on_health_on_health_zero"]

@@ -14,12 +14,13 @@ radius = 11.4018
 radius = 9.0
 height = 42.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weaponHandler")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weaponHandler", "_healthController")]
 collision_layer = 2
 collision_mask = 19
 motion_mode = 1
 script = ExtResource("1_a2go8")
 _weaponHandler = NodePath("WeaponHandler")
+_healthController = NodePath("Health")
 AttackMask = 8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -34,16 +35,16 @@ shape = SubResource("CircleShape2D_y5eki")
 [node name="Knife" parent="WeaponHandler" instance=ExtResource("4_dtejd")]
 rotation = -6.28319
 
-[node name="Hurtbox" parent="." instance=ExtResource("5_qiyv2")]
+[node name="Hurtbox" parent="WeaponHandler" instance=ExtResource("5_qiyv2")]
 collision_layer = 4
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+[node name="CollisionShape2D" parent="WeaponHandler/Hurtbox" index="0"]
 shape = SubResource("CapsuleShape2D_7wkqt")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("6_xnxd5")
 
-[connection signal="OnHurt" from="Hurtbox" to="." method="_on_hurtbox_on_hurt"]
+[connection signal="OnHurt" from="WeaponHandler/Hurtbox" to="." method="_on_hurtbox_on_hurt"]
 [connection signal="OnHealthZero" from="Health" to="." method="_on_health_on_health_zero"]
 
-[editable path="Hurtbox"]
+[editable path="WeaponHandler/Hurtbox"]

@@ -4,12 +4,18 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 using Shuuut.Scripts;
+using Shuuut.World.Weapons;
 using Shuuut.World.Zombies.States;
 
 namespace Shuuut.World.Zombies;
 
 
 using StateManager = StateManager<State, ZombieController>;
+
+public interface IAttacker
+{
+	public uint AttackMask { get; set; }
+}
 
 public enum State
 {
@@ -19,7 +25,7 @@ public enum State
 	Attacking
 }
 
-public partial class ZombieController : CharacterBody2D
+public partial class ZombieController : CharacterBody2D, IAttacker
 {
 
 	[Export] public float MovementSpeed { get; private set; } = 100;
@@ -27,7 +33,12 @@ public partial class ZombieController : CharacterBody2D
 	[Export] public Area2D Detector { get; private set; }
 	[Export] public Label stateLabel;
 	[Export] public HealthController HealthController;
+	[Export] public WeaponHandler WeaponHandler;
+	
+	[Export(PropertyHint.Layers2DPhysics)]
+	public uint AttackMask { get; set; }
 
+	
 	[Export(PropertyHint.Layers2DPhysics)] private uint entitySteerAwayLayer;
 	
 	
@@ -169,5 +180,5 @@ public partial class ZombieController : CharacterBody2D
 		HealthController.ReduceHealth(damageInfo.Damage);
 		damageInfo.Dispose();
 	}
-	
+
 }

@@ -1,4 +1,5 @@
 using Godot;
+using Shuuut.World.Zombies;
 
 namespace Shuuut.World.Weapons;
 
@@ -22,15 +23,15 @@ public partial class WeaponHandler : Node2D
 		get => _weaponDistanceFromHandler * Constants.Tile.Size;
 	}
 
-	private Knife _knife;
+	private BaseWeapon _knife;
 	
 	
 	public override void _Ready()
 	{
 		base._Ready();
-		_knife = GetChild<Knife>(0);
+		_knife = GetChild<BaseWeapon>(0);
 		_knife.SetAttackMask(
-			((Player)GetParent()).AttackMask );
+			((IAttacker)GetParent()).AttackMask );
 		_knife.Sheath();
 		EquipWeapon();
 	}
@@ -42,11 +43,9 @@ public partial class WeaponHandler : Node2D
 
 	public async void UnequipWeapon()
 	{
-		await _knife.currentAnimation.WaitAsync();
 		await _knife.Sheath();
 		_knife.OnUnequip();
 		currentState = State.InSheath;
-		_knife.currentAnimation.Release();
 	}
 
 	public void UseWeapon()
