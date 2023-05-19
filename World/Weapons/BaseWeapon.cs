@@ -3,8 +3,9 @@ using Godot;
 
 namespace Shuuut.World.Weapons;
 
-public abstract partial class BaseWeapon : Node2D 
+public abstract partial class BaseWeapon : Node2D
 {
+    [Export] private float distanceFromOwner = 0;
     protected WeaponHandler handler;
     protected bool isEquipped = false;
 
@@ -13,8 +14,9 @@ public abstract partial class BaseWeapon : Node2D
     {
         handler = GetParent() as WeaponHandler;
 		
-        var knife = GetChild<Node2D>(0);
-        knife.Position = Vector2.Right.Rotated(Mathf.DegToRad(-30)) * handler.WeaponDistanceFromHandler ;
+        var sprite = GetChild<Sprite2D>(0);
+        if(sprite != null ) 
+            sprite.Position = Vector2.Right.Rotated(Mathf.DegToRad(-30)) * (handler.WeaponDistanceFromHandler + distanceFromOwner) ;
         Enable(isEquipped);
     }
 
