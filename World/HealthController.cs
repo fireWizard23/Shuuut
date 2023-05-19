@@ -3,9 +3,9 @@ using System;
 
 public partial class HealthController : Node2D
 {
-	[Export]
-	public float InitialHealth { get; private set; }
+	[Export] public float InitialHealth { get; private set; } = 100;
 	public float CurrentHealth { get; private set; }
+	
 
 
 	[Signal]
@@ -14,6 +14,13 @@ public partial class HealthController : Node2D
 	
 	[Signal]
 	public delegate void OnHealthZeroEventHandler();
+
+	public override void _Ready()
+	{
+		base._Ready();
+		CurrentHealth = InitialHealth;
+	}
+
 
 	public void ReduceHealth(int damage)
 	{
