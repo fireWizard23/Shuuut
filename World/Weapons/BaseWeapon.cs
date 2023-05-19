@@ -26,19 +26,18 @@ public abstract partial class BaseWeapon : Node2D
 
     protected void Enable(bool v=true)
     {
+        isEquipped = v;
         SetProcess(v);
         SetPhysicsProcess(v);
     }
     
     public void OnEquip()
     {
-        isEquipped = true;
         Enable(isEquipped);
     }
 
     public void OnUnequip()
     {
-        isEquipped = false;
         Enable(isEquipped);
     }
 
