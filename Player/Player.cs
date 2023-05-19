@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Shuuut.Scripts;
 using Shuuut.World.Weapons;
 
 public partial class Player : CharacterBody2D
@@ -8,6 +9,7 @@ public partial class Player : CharacterBody2D
 	public const float Speed = 100.0f;
 
 	[Export] private WeaponHandler _weaponHandler;
+	[Export] private HealthController _healthController;
 
 	[Export(PropertyHint.Layers2DPhysics)] public uint AttackMask;
 
@@ -48,4 +50,16 @@ public partial class Player : CharacterBody2D
 		Velocity = velocity;
 		MoveAndSlide();
 	}
+
+	public void _on_hurtbox_on_hurt(DamageInfo damageInfo)
+	{
+		_healthController.ReduceHealth(damageInfo.Damage);
+		damageInfo.Dispose();
+	}
+
+	public void _on_health_on_health_zero()
+	{
+		GD.Print(" PLAYER DIED!");
+	}
+	
 }

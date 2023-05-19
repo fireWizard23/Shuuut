@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbjfcgdd42dgx"]
+[gd_scene load_steps=9 format=3 uid="uid://bbjfcgdd42dgx"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_a2go8"]
 [ext_resource type="Texture2D" uid="uid://dx7rh4g1lh8ne" path="res://Assets/Characters/Man Blue/manBlue_stand.png" id="2_n4e54"]
 [ext_resource type="PackedScene" uid="uid://8knc8vxvk1h1" path="res://World/Weapons/weapon_handler.tscn" id="3_v1ay4"]
 [ext_resource type="PackedScene" uid="uid://k2ri05oga4cr" path="res://World/Weapons/Knife.tscn" id="4_dtejd"]
 [ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/hurtbox.tscn" id="5_qiyv2"]
+[ext_resource type="Script" path="res://World/HealthController.cs" id="6_xnxd5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y5eki"]
 radius = 11.4018
@@ -38,5 +39,11 @@ collision_layer = 4
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource("CapsuleShape2D_7wkqt")
+
+[node name="Health" type="Node2D" parent="."]
+script = ExtResource("6_xnxd5")
+
+[connection signal="OnHurt" from="Hurtbox" to="." method="_on_hurtbox_on_hurt"]
+[connection signal="OnHealthZero" from="Health" to="." method="_on_health_on_health_zero"]
 
 [editable path="Hurtbox"]
