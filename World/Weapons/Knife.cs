@@ -15,8 +15,6 @@ public partial class Knife : BaseMeleeWeapon
 
 	private bool attacking;
 
-	private bool inAnimation = false;
-
 	public void SetAttackMask(uint mask)
 	{
 		hitbox.CollisionMask = mask;
@@ -26,7 +24,8 @@ public partial class Knife : BaseMeleeWeapon
 
 	public void Use()
 	{
-		if (!inAnimation && Input.IsActionJustPressed("attack") && !attacking)
+		GD.Print(currentAnimation.CurrentCount);
+		if (currentAnimation.CurrentCount != 0 && Input.IsActionJustPressed("attack") && !attacking)
 		{
 			Attack();
 		}
@@ -36,27 +35,28 @@ public partial class Knife : BaseMeleeWeapon
 	{
 		
 		//Hide();
-		inAnimation = true;
+		await currentAnimation.WaitAsync();
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		tween.TweenProperty(this, "modulate:a", 0, 0.25f);
 		await ToSignal(tween, Tween.SignalName.Finished);
-		inAnimation = false;
+		GD.Print("FINISHED!");
+		currentAnimation.Release();
 		Enable(false);
 	}
 
 	public override async Task UnSheath()
 	{
-		inAnimation = true;
+		await currentAnimation.WaitAsync();
+
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		tween.TweenProperty(this, "modulate:a", 1, 0.25f);
 		await ToSignal(tween, Tween.SignalName.Finished);
-		inAnimation = false;
+		currentAnimation.Release();
 		Enable();
 	}
 
 	async void Attack()
 	{
-		inAnimation = true;
 		attacking = true;
 
 		var origRot = Rotation;
@@ -85,10 +85,9 @@ public partial class Knife : BaseMeleeWeapon
 
 		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
-		inAnimation = false;
+		currentAnimation.Release();
 		attacking = false;
 		Rotation = 0;
-		currentAnimation.Release();
 
 	}
 	
