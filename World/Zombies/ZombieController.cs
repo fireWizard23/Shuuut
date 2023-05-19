@@ -26,6 +26,8 @@ public partial class ZombieController : CharacterBody2D
 	[Export] public Line2D PathLine2D;
 	[Export] public Area2D Detector { get; private set; }
 	[Export] public Label stateLabel;
+	[Export] public HealthController HealthController;
+
 	[Export(PropertyHint.Layers2DPhysics)] private uint entitySteerAwayLayer;
 	
 	
@@ -155,11 +157,17 @@ public partial class ZombieController : CharacterBody2D
 		QueueFree();
 	}
 
+
+	public void _on_health_on_health_zero()
+	{
+		Destroy();
+	}
+	
+
 	public void _on_hurtbox_on_hurt(DamageInfo damageInfo)
 	{
+		HealthController.ReduceHealth(damageInfo.Damage);
 		damageInfo.Dispose();
-		GD.Print(Name, " Got hurt by ", damageInfo.Damage);
-		Destroy();
 	}
 	
 }
