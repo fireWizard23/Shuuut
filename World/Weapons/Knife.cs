@@ -7,16 +7,12 @@ using Shuuut.Scripts;
 
 namespace Shuuut.World.Weapons;
 
-public partial class Knife : Node2D
+public partial class Knife : BaseMeleeWeapon
 {
 
-	[Export] private Hitbox hitbox;
-
-	private WeaponHandler handler;
-
+	
 	public SemaphoreSlim currentAnimation = new(1);
 
-	private bool isEquipped = false;
 	private bool attacking;
 
 	private bool inAnimation = false;
@@ -26,20 +22,7 @@ public partial class Knife : Node2D
 		hitbox.CollisionMask = mask;
 	}
 	
-	public override void _Ready()
-	{
-		handler = GetParent() as WeaponHandler;
-		
-		var knife = GetChild<Node2D>(0);
-		knife.Position = Vector2.Right.Rotated(Mathf.DegToRad(-30)) * handler.WeaponDistanceFromHandler ;
-		Enable(isEquipped);
-	}
 
-	void Enable(bool v=true)
-	{
-		SetProcess(v);
-		SetPhysicsProcess(v);
-	}
 
 	public void Use()
 	{
@@ -49,7 +32,7 @@ public partial class Knife : Node2D
 		}
 	}
 
-	public async Task Sheath()
+	public override async Task Sheath()
 	{
 		
 		//Hide();
@@ -61,7 +44,7 @@ public partial class Knife : Node2D
 		Enable(false);
 	}
 
-	public async void UnSheath()
+	public override async Task UnSheath()
 	{
 		inAnimation = true;
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
@@ -110,17 +93,7 @@ public partial class Knife : Node2D
 	}
 	
 
-	public void OnEquip()
-	{
-		isEquipped = true;
-		Enable(isEquipped);
-	}
 
-	public void OnUnequip()
-	{
-		isEquipped = false;
-		Enable(isEquipped);
-	}
 
 	public void _on_hitbox_on_hitbox_hit(Hurtbox hurtbox)
 	{
