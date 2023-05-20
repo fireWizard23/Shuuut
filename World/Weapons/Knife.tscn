@@ -15,7 +15,7 @@ hitbox = NodePath("Sprite2D/Hitbox")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -1.5708
-scale = Vector2(0.012, 0.012)
+scale = Vector2(0.009, 0.009)
 texture = ExtResource("2_aquni")
 
 [node name="Hitbox" parent="Sprite2D" instance=ExtResource("3_xrbon")]
