@@ -63,6 +63,7 @@ public partial class Knife : BaseMeleeWeapon
 		// Attack animation
 
 		handler.OwnerCanMove = false;
+		handler.OwnerCanRotate = false;
 		hitbox.TurnOn();
 		var attackSpeed = 0.15f / 2;
 		var attack1 = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut).SetParallel();
@@ -80,6 +81,7 @@ public partial class Knife : BaseMeleeWeapon
 		
 		hitbox.TurnOff();
 		handler.OwnerCanMove = true;
+		handler.OwnerCanRotate = true;
 
 		// Recovery
 		var recovery = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut).SetParallel();

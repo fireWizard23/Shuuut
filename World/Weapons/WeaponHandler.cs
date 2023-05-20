@@ -16,6 +16,7 @@ public partial class WeaponHandler : Node2D
 	private float _weaponDistanceFromHandler = 0.5f;
 
 	public bool OwnerCanMove = true;
+	public bool OwnerCanRotate = true;
 
 
 	private State currentState = State.InSheath;
@@ -26,8 +27,7 @@ public partial class WeaponHandler : Node2D
 	}
 
 	private BaseWeapon _knife;
-	
-	
+
 	public override void _Ready()
 	{
 		base._Ready();

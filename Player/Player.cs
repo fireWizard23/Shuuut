@@ -17,7 +17,11 @@ public partial class Player : CharacterBody2D, IAttacker
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
-		LookAt(GetGlobalMousePosition());
+		if (_weaponHandler.OwnerCanRotate)
+		{
+			var targetAngle = GlobalPosition.DirectionTo(GetGlobalMousePosition()).Angle();
+			Rotation = (float)Mathf.LerpAngle(Rotation, targetAngle, 0.5f);
+		}
 		if (Input.IsActionJustPressed("attack"))
 		{
 			_weaponHandler.UseWeapon();
