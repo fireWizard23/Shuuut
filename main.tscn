@@ -29,7 +29,7 @@ position = Vector2(536, 355)
 position = Vector2(520, 433)
 
 [node name="Zombie3" parent="." instance=ExtResource("2_mgsnl")]
-position = Vector2(109, 421)
+position = Vector2(183, 384)
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 position = Vector2(112, 365)

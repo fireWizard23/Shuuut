@@ -22,7 +22,14 @@ public enum State
 	Idle,
 	Chasing,
 	Wandering,
-	Attacking
+	Attacking,
+	InKnockback
+}
+
+public struct KnockbackInfo
+{
+	public Vector2 Direction { get; set; }
+	public float Distance { get; set; }
 }
 
 public partial class ZombieController : CharacterBody2D, IAttacker
@@ -52,6 +59,9 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 
 	private Array<Rid> exclude;
 	public RandomNumberGenerator Rng = new();
+	
+	public KnockbackInfo KnockbackInfo { get; set; }
+
 
 	
 		
@@ -70,6 +80,7 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 				{ State.Wandering , new WanderingState()},
 				{ State.Attacking , new AttackingState()},
 				{ State.Chasing , new ChasingState()},
+				{ State.InKnockback, new KnockbackState()},
 				
 			},
 			this
@@ -97,19 +108,30 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 	{
 		base._PhysicsProcess(delta);
 		stateManager.PhysicsProcess(delta);
-		var ac = stateManager.CurrentStateEnum == State.Attacking ? Vector2.Zero :  ContextSteer(DesiredVelocity.Normalized(), entitySteerAwayLayer);
-		var desiredDirection = DesiredVelocity.Normalized();
-		Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
+		var ac = stateManager.CurrentStateEnum is State.Attacking or State.InKnockback
+			? Vector2.Zero
+			: ContextSteer(DesiredVelocity.Normalized(), entitySteerAwayLayer);
+
+		if (stateManager.CurrentStateEnum is not State.InKnockback)
+		{
+			var desiredDirection = DesiredVelocity.Normalized();
+			Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
+		}
+		
 		MoveAndSlide();
 		stateLabel.Text = stateManager.CurrentStateEnum.ToString();
 		stateLabel.Rotation = -Rotation;
 		stateLabel.Position = Vector2.Zero;
+		
 		//Rotation
-		var targetAngle = Velocity.Normalized().Angle();
-		if (Velocity.LengthSquared() > 0)
+		if (stateManager.CurrentStateEnum is not State.InKnockback)
 		{
-			Rotation = (float)Mathf.LerpAngle(Rotation, targetAngle, 8 * delta);
-		} 
+			var targetAngle = Velocity.Normalized().Angle();
+			if (Velocity.LengthSquared() > 0)
+			{
+				Rotation = (float)Mathf.LerpAngle(Rotation, targetAngle, 8 * delta);
+			} 
+		}
 	}
 
 	Vector2 ContextSteer(Vector2 desiredDirection, uint collisionLayer,int rayCount=8,int rayLength=100)
@@ -178,6 +200,12 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 	public void _on_hurtbox_on_hurt(DamageInfo damageInfo)
 	{
 		HealthController.ReduceHealth(damageInfo.Damage);
+		this.KnockbackInfo = new KnockbackInfo()
+		{
+			Direction = damageInfo.Source.GlobalPosition.DirectionTo(GlobalPosition),
+			Distance = Mathf.Clamp(damageInfo.Damage, 32, 64*5)
+		};
+		stateManager.ChangeState(State.InKnockback);
 		damageInfo.Dispose();
 	}
 
