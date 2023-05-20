@@ -49,6 +49,10 @@ public partial class Player : CharacterBody2D, IAttacker
 		}
 
 		Velocity = velocity;
+		if (!_weaponHandler.OwnerCanMove)
+		{
+			Velocity *= 0;
+		}
 		MoveAndSlide();
 	}
 

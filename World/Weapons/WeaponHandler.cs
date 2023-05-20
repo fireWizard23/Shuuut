@@ -15,6 +15,8 @@ public partial class WeaponHandler : Node2D
 {
 	private float _weaponDistanceFromHandler = 0.5f;
 
+	public bool OwnerCanMove = true;
+
 
 	private State currentState = State.InSheath;
 
