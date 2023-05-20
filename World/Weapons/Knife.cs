@@ -75,9 +75,16 @@ public partial class Knife : BaseMeleeWeapon
 		await ToSignal(attack2, Tween.SignalName.Finished);
 		
 		hitbox.TurnOff();
-
-		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
-
+		
+		// Recovery
+		var recovery = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut).SetParallel();
+		recovery.TweenProperty(this, "rotation", origRot, 0.5f);
+		
+		await ToSignal(recovery, Tween.SignalName.Finished);
+		
+		
+		// await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+		
 		currentAnimation.Release();
 		attacking = false;
 		Rotation = 0;
