@@ -24,7 +24,6 @@ internal class WanderingState : BaseState<State, ZombieController>
     {
         Parent.Target = body;
         ChangeState(State.Chasing);
-        GD.Print("BODY DETECTED!");
     }
 
 
@@ -50,11 +49,9 @@ internal class WanderingState : BaseState<State, ZombieController>
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);
-        // Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(TargetPosition) * Parent.MovementSpeed;
         var path = Pathfinding.Instance.GetPath(Parent.GlobalPosition, TargetPosition);
         if (path.Count == 0)
         {
-            GD.Print("NO PATH!");
             ChangeTargetPosition();
             return;
         }
@@ -63,7 +60,6 @@ internal class WanderingState : BaseState<State, ZombieController>
         Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(go) * Parent.MovementSpeed;
         if (Parent.GlobalPosition.DistanceTo(TargetPosition) < 32 || (path.Count == 1 && Parent.GlobalPosition.DistanceTo(path[0]) < 32))
         {
-            // ChangeTargetPosition();
             ChangeState(State.Idle);
         }
     }

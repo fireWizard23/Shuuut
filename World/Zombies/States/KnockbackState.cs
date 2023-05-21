@@ -22,7 +22,6 @@ internal class KnockbackState : BaseState<State, ZombieController>
         distanceTraveled += 500 * (float)delta;
         if (distanceTraveled >= Parent.KnockbackInfo.Distance)
         {
-            GD.Print("DISTANCE TRAVE:ED:" , distanceTraveled);
             distanceTraveled = 0;
             shouldExit = true;
             await Parent.ToSignal(Parent.GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);

@@ -30,7 +30,6 @@ public partial class Knife : BaseMeleeWeapon
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		tween.TweenProperty(this, "modulate:a", 0, 0.25f);
 		await ToSignal(tween, Tween.SignalName.Finished);
-		GD.Print("FINISHED!");
 		currentAnimation.Release();
 		Enable(false);
 	}
@@ -87,8 +86,6 @@ public partial class Knife : BaseMeleeWeapon
 		
 		await ToSignal(recovery, Tween.SignalName.Finished);
 		
-		
-		// await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 		
 		currentAnimation.Release();
 		attacking = false;

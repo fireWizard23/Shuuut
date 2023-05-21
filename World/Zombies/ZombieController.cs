@@ -85,12 +85,6 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 	}
 
 
-	public override void _Draw()
-	{
-		base._Draw();
-		// DrawLine(Vector2.Zero, Velocity, Colors.Aqua);
-	}
-
 	public override void _Process(double delta)
 	{
 		base._Process(delta);

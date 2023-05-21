@@ -108,7 +108,6 @@ public partial class Pathfinding : Node
 
     public Vector2I ToId(Vector2 globalPos)
     {
-	    // return (Vector2I)(globalPos / CellSize);
 	    return tileMap.LocalToMap(tileMap.ToLocal(globalPos));
     }
 
