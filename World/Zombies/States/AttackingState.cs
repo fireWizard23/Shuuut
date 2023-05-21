@@ -18,7 +18,7 @@ public class AttackingState : BaseState<State, ZombieController>
     private async void Attack()
     {
         CanAttack = false;
-        await Parent.ToSignal(Parent.GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+        await Parent.ToSignal(Parent.GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
         if (stateManager.CurrentStateEnum != State.Attacking)
         {
             CanAttack = true;
