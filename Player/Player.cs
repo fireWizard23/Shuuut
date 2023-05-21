@@ -19,7 +19,7 @@ internal enum State
 public partial class Player : CharacterBody2D, IAttacker
 {
 	[Export]
-	public const float Speed = 100.0f;
+	public float Speed = 100.0f;
 
 	[Export] internal WeaponHandler _weaponHandler;
 	[Export] private HealthController _healthController;
