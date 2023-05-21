@@ -2,7 +2,7 @@
 using Shuuut.Scripts;
 using Shuuut.World;
 
-namespace Shuuut.Player;
+namespace Shuuut.Player.States;
 
 internal class AttackingState : BaseState<State, Player>
 {

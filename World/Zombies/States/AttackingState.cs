@@ -4,7 +4,7 @@ using Microsoft.VisualBasic;
 
 namespace Shuuut.World.Zombies.States;
 
-public class AttackingState : BaseState<State, ZombieController>
+internal class AttackingState : BaseState<State, ZombieController>
 {
     private bool CanAttack = true;
     

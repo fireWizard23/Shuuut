@@ -1,7 +1,7 @@
 ﻿using Godot;
 using Shuuut.World;
 
-namespace Shuuut.Player;
+namespace Shuuut.Player.States;
 
 internal class InKnockbackState : BaseState<State, Player>
 {

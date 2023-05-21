@@ -1,8 +1,7 @@
-﻿using System.Diagnostics;
-using Godot;
+﻿using Godot;
 using Shuuut.World;
 
-namespace Shuuut.Player;
+namespace Shuuut.Player.States;
 
 internal class NormalState : BaseState<State, Player>
 {

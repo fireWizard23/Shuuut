@@ -17,7 +17,7 @@ public interface IAttacker
 	public uint AttackMask { get; set; }
 }
 
-public enum State
+internal enum State
 {
 	Idle,
 	Chasing,
@@ -26,11 +26,6 @@ public enum State
 	InKnockback
 }
 
-public struct KnockbackInfo
-{
-	public Vector2 Direction { get; set; }
-	public float Distance { get; set; }
-}
 
 public partial class ZombieController : CharacterBody2D, IAttacker
 {

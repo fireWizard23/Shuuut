@@ -5,7 +5,7 @@ using Godot;
 
 namespace Shuuut.World.Zombies.States;
 
-public class WanderingState : BaseState<State, ZombieController> 
+internal class WanderingState : BaseState<State, ZombieController> 
 {
 
     private Vector2 TargetPosition;

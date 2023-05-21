@@ -3,7 +3,7 @@ using Godot;
 
 namespace Shuuut.World.Zombies.States;
 
-public class ChasingState : BaseState<State, ZombieController>
+internal class ChasingState : BaseState<State, ZombieController>
 {
     
 

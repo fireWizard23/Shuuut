@@ -4,7 +4,7 @@ using Godot;
 
 namespace Shuuut.World.Zombies.States;
 
-public class IdleState : BaseState<State, ZombieController>
+internal class IdleState : BaseState<State, ZombieController>
 {
     
     public override async void OnEnter()
