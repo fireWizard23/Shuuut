@@ -30,7 +30,7 @@ public abstract partial class BaseWeapon : Node2D
     public abstract  Task Sheath();
     public abstract  Task UnSheath();
 
-    public abstract void Use();
+    public abstract Task Use();
     
     
     
@@ -42,12 +42,12 @@ public abstract partial class BaseWeapon : Node2D
         SetPhysicsProcess(v);
     }
     
-    public void OnEquip()
+    public async Task OnEquip()
     {
         Enable(isEquipped);
     }
 
-    public void OnUnequip()
+    public async Task OnUnequip()
     {
         Enable(isEquipped);
     }

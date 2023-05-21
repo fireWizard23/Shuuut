@@ -20,7 +20,7 @@ public partial class Fist : BaseMeleeWeapon
 		this.mask = mask;
 	}
 
-	public override void Use()
+	public override async Task Use()
 	{
 		var space = GetWorld2D().DirectSpaceState;
 		var query = new PhysicsRayQueryParameters2D()

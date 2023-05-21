@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Godot;
 using Shuuut.World.Zombies;
 
@@ -38,29 +39,29 @@ public partial class WeaponHandler : Node2D
 		EquipWeapon();
 	}
 
-	public void EquipWeapon()
+	public async Task EquipWeapon()
 	{
-		_knife.OnEquip();
+		await _knife.OnEquip();
 	}
 
 	public async void UnequipWeapon()
 	{
 		await _knife.Sheath();
-		_knife.OnUnequip();
+		await _knife.OnUnequip();
 		currentState = State.InSheath;
 	}
 
-	public void UseWeapon()
+	public async Task UseWeapon()
 	{
 		switch (currentState)
 		{
 			case State.InSheath:
-				EquipWeapon();
+				await EquipWeapon();
 				currentState = State.Ready;
-				_knife.UnSheath();
+				await _knife.UnSheath();
 				break;
 			case State.Ready:
-				_knife.Use();
+				await _knife.Use();
 				break;
 		}
 	}

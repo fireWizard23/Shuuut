@@ -10,17 +10,15 @@ namespace Shuuut.World.Weapons;
 public partial class Knife : BaseMeleeWeapon
 {
 
-	
-
 	private bool attacking;
 
 
 
-	public override void Use()
+	public override async Task Use()
 	{
 		if (currentAnimation.CurrentCount != 0 && Input.IsActionJustPressed("attack") && !attacking)
 		{
-			Attack();
+			await Attack();
 		}
 	}
 
@@ -48,7 +46,7 @@ public partial class Knife : BaseMeleeWeapon
 		Enable();
 	}
 
-	async void Attack()
+	async Task Attack()
 	{
 		attacking = true;
 
