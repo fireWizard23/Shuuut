@@ -6,7 +6,7 @@ namespace Shuuut.World.Zombies.States;
 
 internal class AttackingState : BaseState<State, ZombieController>
 {
-    private bool CanAttack = true;
+    private bool _canAttack = true;
     
     public override async void OnEnter()
     {
@@ -17,27 +17,27 @@ internal class AttackingState : BaseState<State, ZombieController>
 
     private async void Attack()
     {
-        CanAttack = false;
+        _canAttack = false;
         await Parent.ToSignal(Parent.GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
-        if (stateManager.CurrentStateEnum != State.Attacking)
+        if (StateManager.CurrentStateEnum != State.Attacking)
         {
-            CanAttack = true;
+            _canAttack = true;
             return;
         }
         Parent.WeaponHandler.UseWeapon();
         var timer = Parent.GetTree().CreateTimer(1);
         await Parent.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-        CanAttack = true;
+        _canAttack = true;
     }
 
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);
         Parent.LookAt(Parent.Target.GlobalPosition);
-        if (!CanAttack && Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f)
+        if (!_canAttack && Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f)
         {
             ChangeState(State.Idle);
-        }  else if (CanAttack)
+        }  else if (_canAttack)
         {
             Attack();
         }

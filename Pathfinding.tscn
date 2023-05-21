@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://World/Pathfinding.cs" id="1_dvowa"]
 
-[node name="Pathfinding" type="Node2D" node_paths=PackedStringArray("debugParent")]
+[node name="Pathfinding" type="Node2D" node_paths=PackedStringArray("_debugParent")]
 z_index = 12
 script = ExtResource("1_dvowa")
-enabledColor = Color(0, 1, 0, 0.419608)
-disabledColor = Color(1, 0, 0, 0.392157)
-debugParent = NodePath("Grid")
+_enabledColor = Color(0, 1, 0, 0.447059)
+_disabledColor = Color(1, 0, 0, 0.447059)
+_debugParent = NodePath("Grid")
 
 [node name="Grid" type="Node2D" parent="."]
 visible = false

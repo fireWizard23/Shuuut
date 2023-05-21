@@ -11,7 +11,7 @@ internal class IdleState : BaseState<State, ZombieController>
     {
         base.OnEnter();
         Parent.DesiredVelocity *= 0;
-        if (stateManager.PreviousState is null)
+        if (StateManager.PreviousState is null)
         {
             ChangeState(State.Wandering);
             return;
@@ -22,10 +22,10 @@ internal class IdleState : BaseState<State, ZombieController>
             return;
         }
 
-        if (stateManager.PreviousStateEnum is State.Wandering or State.Chasing)
+        if (StateManager.PreviousStateEnum is State.Wandering or State.Chasing)
         {
             await Parent.ToSignal(Parent.GetTree().CreateTimer(Parent.Rng.RandfRange(1,2)), SceneTreeTimer.SignalName.Timeout);
-            if (stateManager.CurrentStateEnum != State.Idle) return;
+            if (StateManager.CurrentStateEnum != State.Idle) return;
             ChangeState(State.Wandering);
         }
         

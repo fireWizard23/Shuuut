@@ -40,8 +40,8 @@ position = Vector2(934, 698)
 [node name="Zombie3" parent="." instance=ExtResource("2_mgsnl")]
 position = Vector2(723, 582)
 
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("_follow")]
 position = Vector2(926, 549)
 zoom = Vector2(1.75, 1.75)
 script = ExtResource("5_kj6yk")
-follow = NodePath("../Player")
+_follow = NodePath("../Player")

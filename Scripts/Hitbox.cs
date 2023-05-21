@@ -1,6 +1,6 @@
 using Godot;
-using System;
-using Shuuut.Scripts;
+
+namespace Shuuut.Scripts;
 
 public partial class Hitbox : Area2D
 {

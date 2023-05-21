@@ -5,8 +5,6 @@ namespace Shuuut.World.Zombies.States;
 
 internal class ChasingState : BaseState<State, ZombieController>
 {
-    
-
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);

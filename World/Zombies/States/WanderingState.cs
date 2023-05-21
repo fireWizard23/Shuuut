@@ -8,16 +8,16 @@ namespace Shuuut.World.Zombies.States;
 internal class WanderingState : BaseState<State, ZombieController> 
 {
 
-    private Vector2 TargetPosition;
-    private PhysicsDirectSpaceState2D space;
-    private RandomNumberGenerator rng;
+    private Vector2 _targetPosition;
+    private PhysicsDirectSpaceState2D _space;
+    private RandomNumberGenerator _rng;
 
     public override void OnRegister()
     {
         base.OnRegister();
-        this.rng = Parent.Rng;
+        this._rng = Parent.Rng;
         Parent.Detector.BodyEntered += DetectorOnBodyEntered;
-        this.space = Parent.GetWorld2D().DirectSpaceState;
+        this._space = Parent.GetWorld2D().DirectSpaceState;
     }
 
     private void DetectorOnBodyEntered(Node2D body)
@@ -33,12 +33,12 @@ internal class WanderingState : BaseState<State, ZombieController>
        ChangeTargetPosition();
     }
 
-    void ChangeTargetPosition()
+    private void ChangeTargetPosition()
     {
-        var direction = Vector2.Right.Rotated(rng.RandiRange(0, 360));
-        var length = rng.RandfRange(0.8f,3) * Constants.Tile.Size;
-        TargetPosition = Parent.SpawnPosition +  direction * length;
-        if (Parent.GlobalPosition.DistanceTo(TargetPosition) < Constants.Tile.Size*2)
+        var direction = Vector2.Right.Rotated(_rng.RandiRange(0, 360));
+        var length = _rng.RandfRange(0.8f,3) * Constants.Tile.Size;
+        _targetPosition = Parent.SpawnPosition +  direction * length;
+        if (Parent.GlobalPosition.DistanceTo(_targetPosition) < Constants.Tile.Size*2)
         {
             ChangeTargetPosition();
         }
@@ -49,7 +49,7 @@ internal class WanderingState : BaseState<State, ZombieController>
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);
-        var path = Pathfinding.Instance.GetPath(Parent.GlobalPosition, TargetPosition);
+        var path = Pathfinding.Instance.GetPath(Parent.GlobalPosition, _targetPosition);
         if (path.Count == 0)
         {
             ChangeTargetPosition();
@@ -58,7 +58,7 @@ internal class WanderingState : BaseState<State, ZombieController>
 
         var go = path.Count == 1 ? path[0] : path[1];
         Parent.DesiredVelocity = Parent.GlobalPosition.DirectionTo(go) * Parent.MovementSpeed;
-        if (Parent.GlobalPosition.DistanceTo(TargetPosition) < 32 || (path.Count == 1 && Parent.GlobalPosition.DistanceTo(path[0]) < 32))
+        if (Parent.GlobalPosition.DistanceTo(_targetPosition) < 32 || (path.Count == 1 && Parent.GlobalPosition.DistanceTo(path[0]) < 32))
         {
             ChangeState(State.Idle);
         }

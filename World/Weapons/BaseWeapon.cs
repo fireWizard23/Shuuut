@@ -6,21 +6,21 @@ namespace Shuuut.World.Weapons;
 
 public abstract partial class BaseWeapon : Node2D
 {
-    [Export] protected float distanceFromOwner = 0;
-    protected WeaponHandler handler;
-    protected bool isEquipped = false;
-    
-    public SemaphoreSlim currentAnimation = new(1);
+    [Export] protected float DistanceFromOwner = 0;
+    protected WeaponHandler Handler;
+    protected bool IsEquipped = false;
+
+    protected readonly SemaphoreSlim CurrentAnimation = new(1);
 
     
     public override void _Ready()
     {
-        handler = GetParent() as WeaponHandler;
+        Handler = GetParent() as WeaponHandler;
 		
         var sprite = GetChildOrNull<Sprite2D>(0);
         if(sprite != null ) 
-            sprite.Position = Vector2.Right.Rotated(Mathf.DegToRad(-30)) * (handler.WeaponDistanceFromHandler + distanceFromOwner) ;
-        Enable(isEquipped);
+            sprite.Position = Vector2.Right.Rotated(Mathf.DegToRad(-30)) * (Handler.WeaponDistanceFromHandler + DistanceFromOwner) ;
+        Enable(IsEquipped);
     }
 
     public abstract void SetAttackMask(uint mask);
@@ -37,19 +37,19 @@ public abstract partial class BaseWeapon : Node2D
 
     protected void Enable(bool v=true)
     {
-        isEquipped = v;
+        IsEquipped = v;
         SetProcess(v);
         SetPhysicsProcess(v);
     }
     
     public async Task OnEquip()
     {
-        Enable(isEquipped);
+        Enable(IsEquipped);
     }
 
     public async Task OnUnequip()
     {
-        Enable(isEquipped);
+        Enable(IsEquipped);
     }
 
 }

@@ -6,8 +6,6 @@ namespace Shuuut.Player.States;
 
 internal class AttackingState : BaseState<State, Player>
 {
-
-
     public override async void OnEnter()
     {
         base.OnEnter();

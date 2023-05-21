@@ -1,9 +1,10 @@
 using Godot;
-using System;
+
+namespace Shuuut;
 
 public partial class Camera2D : Godot.Camera2D
 {
-	[Export] private Node2D follow;
+	[Export] private Node2D _follow;
 	
 	public override void _Ready()
 	{
@@ -11,6 +12,6 @@ public partial class Camera2D : Godot.Camera2D
 
 	public override void _Process(double delta)
 	{
-		GlobalPosition = follow.GlobalPosition;
+		GlobalPosition = _follow.GlobalPosition;
 	}
 }

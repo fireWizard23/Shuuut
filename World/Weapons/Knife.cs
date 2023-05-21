@@ -10,13 +10,13 @@ namespace Shuuut.World.Weapons;
 public partial class Knife : BaseMeleeWeapon
 {
 
-	private bool attacking;
+	private bool _isAttacking;
 
 
 
 	public override async Task Use()
 	{
-		if (currentAnimation.CurrentCount != 0 && Input.IsActionJustPressed("attack") && !attacking)
+		if (CurrentAnimation.CurrentCount != 0 && Input.IsActionJustPressed("attack") && !_isAttacking)
 		{
 			await Attack();
 		}
@@ -26,31 +26,31 @@ public partial class Knife : BaseMeleeWeapon
 	{
 		
 		//Hide();
-		await currentAnimation.WaitAsync();
+		await CurrentAnimation.WaitAsync();
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		tween.TweenProperty(this, "modulate:a", 0, 0.25f);
 		await ToSignal(tween, Tween.SignalName.Finished);
-		currentAnimation.Release();
+		CurrentAnimation.Release();
 		Enable(false);
 	}
 
 	public override async Task UnSheath()
 	{
-		await currentAnimation.WaitAsync();
+		await CurrentAnimation.WaitAsync();
 
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		tween.TweenProperty(this, "modulate:a", 1, 0.25f);
 		await ToSignal(tween, Tween.SignalName.Finished);
-		currentAnimation.Release();
+		CurrentAnimation.Release();
 		Enable();
 	}
 
 	async Task Attack()
 	{
-		attacking = true;
+		_isAttacking = true;
 
 		var origRot = Rotation;
-		await currentAnimation.WaitAsync();
+		await CurrentAnimation.WaitAsync();
 		var windup = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		windup.TweenProperty(this, "rotation", Rotation-Mathf.DegToRad(90), 0.15f);
 		
@@ -59,9 +59,9 @@ public partial class Knife : BaseMeleeWeapon
 		
 		// Attack animation
 
-		handler.OwnerCanMove = false;
-		handler.OwnerCanRotate = false;
-		hitbox.TurnOn();
+		Handler.OwnerCanMove = false;
+		Handler.OwnerCanRotate = false;
+		Hitbox.TurnOn();
 		var attackSpeed = 0.15f / 2;
 		var attack1 = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut).SetParallel();
 		attack1.TweenProperty(this, "rotation", origRot, attackSpeed).SetDelay(0.15f);
@@ -76,9 +76,9 @@ public partial class Knife : BaseMeleeWeapon
 		
 		await ToSignal(attack2, Tween.SignalName.Finished);
 		
-		hitbox.TurnOff();
-		handler.OwnerCanMove = true;
-		handler.OwnerCanRotate = true;
+		Hitbox.TurnOff();
+		Handler.OwnerCanMove = true;
+		Handler.OwnerCanRotate = true;
 
 		// Recovery
 		var recovery = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut).SetParallel();
@@ -87,8 +87,8 @@ public partial class Knife : BaseMeleeWeapon
 		await ToSignal(recovery, Tween.SignalName.Finished);
 		
 		
-		currentAnimation.Release();
-		attacking = false;
+		CurrentAnimation.Release();
+		_isAttacking = false;
 		Rotation = 0;
 
 	}
@@ -98,7 +98,7 @@ public partial class Knife : BaseMeleeWeapon
 
 	public void _on_hitbox_on_hitbox_hit(Hurtbox hurtbox)
 	{
-		hurtbox.Hurt(new DamageInfo()
+		hurtbox.Hurt(new()
 		{
 			Damage =  10,
 			Source =  this

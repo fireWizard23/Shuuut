@@ -20,12 +20,9 @@ public partial class WeaponHandler : Node2D
 	public bool OwnerCanRotate = true;
 
 
-	private State currentState = State.InSheath;
+	private State _currentState = State.InSheath;
 
-	public float WeaponDistanceFromHandler
-	{
-		get => _weaponDistanceFromHandler * Constants.Tile.Size;
-	}
+	public float WeaponDistanceFromHandler => _weaponDistanceFromHandler * Constants.Tile.Size;
 
 	private BaseWeapon _knife;
 
@@ -48,16 +45,16 @@ public partial class WeaponHandler : Node2D
 	{
 		await _knife.Sheath();
 		await _knife.OnUnequip();
-		currentState = State.InSheath;
+		_currentState = State.InSheath;
 	}
 
 	public async Task UseWeapon()
 	{
-		switch (currentState)
+		switch (_currentState)
 		{
 			case State.InSheath:
 				await EquipWeapon();
-				currentState = State.Ready;
+				_currentState = State.Ready;
 				await _knife.UnSheath();
 				break;
 			case State.Ready:

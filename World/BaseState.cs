@@ -5,19 +5,19 @@ namespace Shuuut.World;
 
 public class BaseState<T, K> where T : struct, Enum where K : Node
 {
-    protected StateManager<T, K> stateManager;
+    protected StateManager<T, K> StateManager;
 
     protected K Parent;
 
     protected void ChangeState(T newState)
     {
-        stateManager.ChangeState(newState);
+        StateManager.ChangeState(newState);
     }
 
     public void Register(StateManager<T, K> stateManager)
     {
-        this.stateManager = stateManager;
-        Parent = this.stateManager.Parent;
+        this.StateManager = stateManager;
+        Parent = this.StateManager.Parent;
         OnRegister();
     }
     

@@ -10,7 +10,6 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
     
     
     
-    private Dictionary<T, BaseState<T, K>> allStates;
     public readonly K Parent;
 
     public BaseState<T, K> CurrentState { get; private set; }
@@ -19,14 +18,18 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
     public T CurrentStateEnum{ get; private set; }
     public T? PreviousStateEnum { get; private set; }
     
+    private readonly Dictionary<T, BaseState<T, K>> _allStates;
+
+    
+    
     public StateManager(Dictionary<T, BaseState<T, K> > states, K parent)
     {
         Parent = parent;
 
-        allStates = states;
-        int index = 0;
+        _allStates = states;
+        var index = 0;
         T firstState = default;
-        foreach (var h in allStates)
+        foreach (var h in _allStates)
         {
                 
             h.Value?.Register(this);
@@ -44,14 +47,14 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
         PreviousStateEnum = CurrentStateEnum;
         CurrentStateEnum = newState;
         PreviousState = CurrentState;
-        CurrentState = allStates[newState];
+        CurrentState = _allStates[newState];
         CurrentState?.OnEnter();
         PreviousState?.OnExit();
     }
 
     public void Ready()
     {
-        foreach (var v in allStates)
+        foreach (var v in _allStates)
         {
             v.Value?.Ready();
         }
@@ -69,12 +72,10 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
 
     public void Destroy()
     {
-        foreach (var state in allStates.Values)
+        foreach (var state in _allStates.Values)
         {
             state.OnDestroy();
         }
-        
-        
         
     }
     

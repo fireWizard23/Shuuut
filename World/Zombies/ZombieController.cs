@@ -31,31 +31,30 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 {
 
 	[Export] public float MovementSpeed { get; private set; } = 100;
+	
 	[Export] public Line2D PathLine2D;
 	[Export] public Area2D Detector { get; private set; }
-	[Export] public Label stateLabel;
+	[Export] public Label StateLabel;
 	[Export] public HealthController HealthController;
 	[Export] public WeaponHandler WeaponHandler;
 	
-	[Export(PropertyHint.Layers2DPhysics)]
-	public uint AttackMask { get; set; }
+	[Export(PropertyHint.Layers2DPhysics)]  public uint AttackMask { get; set; }
 
 	
-	[Export(PropertyHint.Layers2DPhysics)] private uint entitySteerAwayLayer;
+	[Export(PropertyHint.Layers2DPhysics)] private uint _entitySteerAwayLayer;
 	
 	
 	public Vector2 SpawnPosition { get; private set; }
 	public Node2D Target { get; set; }
-
-
+	public RandomNumberGenerator Rng = new();
+	public KnockbackInfo KnockbackInfo { get; set; }
+	
 	public Vector2 DesiredVelocity;
 
-	private StateManager<State, ZombieController> stateManager;
+	private StateManager<State, ZombieController> _stateManager;
 
-	private Array<Rid> exclude;
-	public RandomNumberGenerator Rng = new();
-	
-	public KnockbackInfo KnockbackInfo { get; set; }
+	private Array<Rid> _exclude;
+
 
 
 	
@@ -64,12 +63,12 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 	{
 		base._Ready();
 		
-		exclude = new Array<Rid>(){ GetRid()};
+		_exclude = new(){ GetRid()};
 		SpawnPosition = GlobalPosition;
 		Rng.Randomize();
 		
-		stateManager = new StateManager(
-			new System.Collections.Generic.Dictionary<State, BaseState<State, ZombieController>>()
+		_stateManager = new(
+			new()
 			{
 				{ State.Idle, new IdleState() },
 				{ State.Wandering , new WanderingState()},
@@ -81,14 +80,14 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 			this
 		);
 
-		stateManager.Ready();
+		_stateManager.Ready();
 	}
 
 
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
-		stateManager.Process(delta);
+		_stateManager.Process(delta);
 		QueueRedraw();
 	}
 
@@ -96,30 +95,28 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		stateManager.PhysicsProcess(delta);
-		var ac = stateManager.CurrentStateEnum is State.Attacking or State.InKnockback
+		_stateManager.PhysicsProcess(delta);
+		var ac = _stateManager.CurrentStateEnum is State.Attacking or State.InKnockback
 			? Vector2.Zero
-			: ContextSteer(DesiredVelocity.Normalized(), entitySteerAwayLayer);
+			: ContextSteer(DesiredVelocity.Normalized(), _entitySteerAwayLayer);
 
-		if (stateManager.CurrentStateEnum is not State.InKnockback)
+		if (_stateManager.CurrentStateEnum is not State.InKnockback)
 		{
 			var desiredDirection = DesiredVelocity.Normalized();
 			Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
 		}
 		
 		MoveAndSlide();
-		stateLabel.Text = stateManager.CurrentStateEnum.ToString();
-		stateLabel.Rotation = -Rotation;
-		stateLabel.Position = Vector2.Zero;
+		StateLabel.Text = _stateManager.CurrentStateEnum.ToString();
+		StateLabel.Rotation = -Rotation;
+		StateLabel.Position = Vector2.Zero;
 		
 		//Rotation
-		if (stateManager.CurrentStateEnum is not State.InKnockback)
+		if (_stateManager.CurrentStateEnum is State.InKnockback) return;
+		var targetAngle = Velocity.Normalized().Angle();
+		if (Velocity.LengthSquared() > 0)
 		{
-			var targetAngle = Velocity.Normalized().Angle();
-			if (Velocity.LengthSquared() > 0)
-			{
-				Rotation = (float)Mathf.LerpAngle(Rotation, targetAngle, 8 * delta);
-			} 
+			Rotation = (float)Mathf.LerpAngle(Rotation, targetAngle, 8 * delta);
 		}
 	}
 
@@ -142,7 +139,7 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 			var direction = directions[i];
 			var query = new PhysicsRayQueryParameters2D()
 			{
-				Exclude = exclude,
+				Exclude = _exclude,
 				From = GlobalPosition,
 				To = GlobalPosition + direction * rayLength,
 				CollisionMask = collisionLayer,
@@ -161,8 +158,8 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 
 		}
 
-		Vector2 go = Vector2.Zero;
-		for (int i = 0; i < rayCount; i++)
+		var go = Vector2.Zero;
+		for (var i = 0; i < rayCount; i++)
 		{
 			var direction = directions[i];
 			go +=( interestWeights[i] - dangers[i]) * direction;
@@ -175,7 +172,7 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 
 	public void Destroy()
 	{
-		stateManager.Destroy();
+		_stateManager.Destroy();
 		QueueFree();
 	}
 
@@ -195,7 +192,7 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 			Distance = Mathf.Clamp(damageInfo.Damage, Constants.Tile.Size/2, Constants.Tile.Sizex5)
 
 		};
-		stateManager.ChangeState(State.InKnockback);
+		_stateManager.ChangeState(State.InKnockback);
 		damageInfo.Dispose();
 	}
 

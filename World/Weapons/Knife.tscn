@@ -8,10 +8,10 @@
 radius = 3.06987
 height = 26.2286
 
-[node name="Knife" type="Node2D" node_paths=PackedStringArray("hitbox")]
+[node name="Knife" type="Node2D" node_paths=PackedStringArray("Hitbox")]
 scale = Vector2(1, 0.977239)
 script = ExtResource("1_vp4vs")
-hitbox = NodePath("Sprite2D/Hitbox")
+Hitbox = NodePath("Sprite2D/Hitbox")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -1.5708

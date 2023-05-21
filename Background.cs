@@ -1,12 +1,12 @@
 using Godot;
-using System;
-using System.IO;
+
+namespace Shuuut;
 
 public partial class Background : TileMap
 {
 	public override void _Ready()
 	{
-		Pathfinding.Instance.Bake(this);
+		World.Pathfinding.Instance.Bake(this);
 	}
 
 	public override void _Process(double delta)

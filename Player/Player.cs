@@ -21,21 +21,20 @@ public partial class Player : CharacterBody2D, IAttacker
 {
 	[Export]
 	public float Speed = 100.0f;
-
-	[Export] internal WeaponHandler _weaponHandler;
 	[Export] private HealthController _healthController;
-
+	[Export] internal WeaponHandler _weaponHandler;
 	[Export(PropertyHint.Layers2DPhysics)] public uint AttackMask { get; set;}
 
-	private StateManager<State, Player> _stateManager;
 
+
+	private StateManager<State, Player> _stateManager;
 	internal KnockbackInfo KnockbackInfo;
 
 	public override void _Ready()
 	{
 		base._Ready();
-		_stateManager = new StateManager<State, Player>(
-			new Dictionary<State, BaseState<State, Player>>()
+		_stateManager = new(
+			new()
 			{
 				{ State.Normal,  new NormalState() },
 				{ State.Attacking,  new AttackingState() },
@@ -60,11 +59,11 @@ public partial class Player : CharacterBody2D, IAttacker
 	public override void _PhysicsProcess(double delta)
 	{
 		_stateManager.PhysicsProcess(delta);
-		Vector2 velocity = Velocity;
+		var velocity = Velocity;
 		if (_stateManager.CurrentStateEnum != State.InKnockback)
 		{
 			
-			Vector2 direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+			var direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 			if (direction != Vector2.Zero)
 			{
 				velocity = direction.Normalized() * Speed;
