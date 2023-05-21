@@ -90,7 +90,7 @@ public partial class Player : CharacterBody2D, IAttacker
 		KnockbackInfo = new()
 		{
 			Direction = damageInfo.Source.GlobalPosition.DirectionTo(GlobalPosition),
-			Distance = Mathf.Clamp(damageInfo.Damage, 32, 64 * 5)
+			Distance = Mathf.Clamp(damageInfo.Damage, Constants.Tile.Size/2, Constants.Tile.Sizex5)
 		};
 		_stateManager.ChangeState(State.InKnockback);
 		damageInfo.Dispose();

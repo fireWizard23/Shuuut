@@ -198,7 +198,8 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 		this.KnockbackInfo = new KnockbackInfo()
 		{
 			Direction = damageInfo.Source.GlobalPosition.DirectionTo(GlobalPosition),
-			Distance = Mathf.Clamp(damageInfo.Damage, 32, 64*5)
+			Distance = Mathf.Clamp(damageInfo.Damage, Constants.Tile.Size/2, Constants.Tile.Sizex5)
+
 		};
 		stateManager.ChangeState(State.InKnockback);
 		damageInfo.Dispose();

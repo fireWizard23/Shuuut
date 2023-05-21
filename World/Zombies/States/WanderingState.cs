@@ -37,7 +37,7 @@ internal class WanderingState : BaseState<State, ZombieController>
     void ChangeTargetPosition()
     {
         var direction = Vector2.Right.Rotated(rng.RandiRange(0, 360));
-        var length = rng.RandfRange(0.8f,3) * 64;
+        var length = rng.RandfRange(0.8f,3) * Constants.Tile.Size;
         TargetPosition = Parent.SpawnPosition +  direction * length;
         if (Parent.GlobalPosition.DistanceTo(TargetPosition) < Constants.Tile.Size*2)
         {
