@@ -28,11 +28,11 @@ Detector = NodePath("Detector")
 stateLabel = NodePath("Label")
 HealthController = NodePath("Health")
 WeaponHandler = NodePath("WeaponHandler")
-AttackMask = 4
+AttackMask = 5
 entitySteerAwayLayer = 17
 
 [node name="Hurtbox" parent="." instance=ExtResource("2_2ax57")]
-collision_layer = 9
+collision_layer = 8
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource("CapsuleShape2D_ra835")

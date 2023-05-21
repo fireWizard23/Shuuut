@@ -21,7 +21,7 @@ motion_mode = 1
 script = ExtResource("1_a2go8")
 _weaponHandler = NodePath("WeaponHandler")
 _healthController = NodePath("Health")
-AttackMask = 8
+AttackMask = 9
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, 0)
