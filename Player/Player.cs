@@ -11,14 +11,14 @@ using Shuuut.World.Zombies;
 
 namespace Shuuut.Player;
 
-internal enum State
+public enum State
 {
 	Normal,
 	Attacking,
 	InKnockback
 }
 
-public partial class Player : CharacterBody2D, IAttacker
+public partial class Player : StatefulEntity<State, Player>, IAttacker
 {
 	[Export]
 	public float Speed = 100.0f;
@@ -28,13 +28,11 @@ public partial class Player : CharacterBody2D, IAttacker
 
 
 
-	private StateManager<State, Player> _stateManager;
 	internal KnockbackInfo KnockbackInfo;
 
-	public override void _Ready()
+	protected override void BeforeReady()
 	{
-		base._Ready();
-		_stateManager = new(
+		StateManager = new(
 			new()
 			{
 				{ State.Normal,  new NormalState() },
@@ -43,25 +41,14 @@ public partial class Player : CharacterBody2D, IAttacker
 			},
 			this
 		);
-		
-		
-		_stateManager.Ready();
 	}
 
-	public override void _Process(double delta)
-	{
-		base._Process(delta);
-		_stateManager.Process(delta);
-		
-	}
-	
-	
 
 	public override void _PhysicsProcess(double delta)
 	{
-		_stateManager.PhysicsProcess(delta);
+		base._PhysicsProcess(delta);
 		var velocity = Velocity;
-		if (_stateManager.CurrentStateEnum != State.InKnockback)
+		if (StateManager.CurrentStateEnum != State.InKnockback)
 		{
 			
 			var direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
@@ -92,7 +79,7 @@ public partial class Player : CharacterBody2D, IAttacker
 			Direction = damageInfo.Source.GlobalPosition.DirectionTo(GlobalPosition),
 			Distance = Mathf.Clamp(damageInfo.Damage, Constants.Tile.Size/2, Constants.Tile.Sizex5)
 		};
-		_stateManager.ChangeState(State.InKnockback);
+		StateManager.ChangeState(State.InKnockback);
 		damageInfo.Dispose();
 	}
 

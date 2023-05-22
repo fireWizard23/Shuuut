@@ -28,7 +28,7 @@ internal enum State
 }
 
 
-public partial class ZombieController : CharacterBody2D, IAttacker
+internal partial class ZombieController : StatefulEntity<State, ZombieController>, IAttacker
 {
 
 	[Export] public float MovementSpeed { get; private set; } = 100;
@@ -52,23 +52,16 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 	
 	public Vector2 DesiredVelocity;
 
-	private StateManager<State, ZombieController> _stateManager;
-
 	private Array<Rid> _exclude;
 
 
-
-	
-		
-	public override void _Ready()
+	protected override void BeforeReady()
 	{
-		base._Ready();
-		
 		_exclude = new(){ GetRid()};
 		SpawnPosition = GlobalPosition;
 		Rng.Randomize();
 		
-		_stateManager = new(
+		StateManager = new(
 			new()
 			{
 				{ State.Idle, new IdleState() },
@@ -81,14 +74,12 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 			this
 		);
 
-		_stateManager.Ready();
 	}
 
 
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
-		_stateManager.Process(delta);
 		QueueRedraw();
 	}
 
@@ -96,24 +87,23 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		_stateManager.PhysicsProcess(delta);
-		var ac = _stateManager.CurrentStateEnum is State.Attacking or State.InKnockback
+		var ac = StateManager.CurrentStateEnum is State.Attacking or State.InKnockback
 			? Vector2.Zero
 			: ContextSteer(DesiredVelocity.Normalized(), _entitySteerAwayLayer);
 
-		if (_stateManager.CurrentStateEnum is not State.InKnockback)
+		if (StateManager.CurrentStateEnum is not State.InKnockback)
 		{
 			var desiredDirection = DesiredVelocity.Normalized();
 			Velocity = (desiredDirection + ac).Normalized() * MovementSpeed;
 		}
 		
 		MoveAndSlide();
-		StateLabel.Text = _stateManager.CurrentStateEnum.ToString();
+		StateLabel.Text = StateManager.CurrentStateEnum.ToString();
 		StateLabel.Rotation = -Rotation;
 		StateLabel.Position = Vector2.Zero;
 		
 		//Rotation
-		if (_stateManager.CurrentStateEnum is State.InKnockback) return;
+		if (StateManager.CurrentStateEnum is State.InKnockback) return;
 		var targetAngle = Velocity.Normalized().Angle();
 		if (Velocity.LengthSquared() > 0)
 		{
@@ -173,7 +163,7 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 
 	public void Destroy()
 	{
-		_stateManager.Destroy();
+		StateManager.Destroy();
 		QueueFree();
 	}
 
@@ -191,9 +181,8 @@ public partial class ZombieController : CharacterBody2D, IAttacker
 		{
 			Direction = damageInfo.Source.GlobalPosition.DirectionTo(GlobalPosition),
 			Distance = Mathf.Clamp(damageInfo.Damage, Constants.Tile.Size/2, Constants.Tile.Sizex5)
-
-		};
-		_stateManager.ChangeState(State.InKnockback);
+		}; 
+		ChangeState(State.InKnockback);
 		damageInfo.Dispose();
 	}
 
