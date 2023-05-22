@@ -17,6 +17,11 @@ internal class NormalState : BaseState<State, Player>
         {
             Parent._weaponHandler.UnequipWeapon();
         }
+
+        if (Input.IsActionJustPressed("dash"))
+        {
+            ChangeState(State.Dashing);
+        }
     }
     public override void PhysicsProcess(double delta)
     {

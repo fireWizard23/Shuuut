@@ -13,7 +13,8 @@ public enum State
 {
 	Normal,
 	Attacking,
-	InKnockback
+	InKnockback,
+	Dashing,
 }
 
 public partial class Player : StatefulEntity<State, Player>, IAttacker
@@ -25,8 +26,9 @@ public partial class Player : StatefulEntity<State, Player>, IAttacker
 	[Export(PropertyHint.Layers2DPhysics)] public uint AttackMask { get; set;}
 
 
-
+	internal float DashLength = Constants.Tile.Size;
 	internal KnockbackInfo KnockbackInfo;
+	internal Vector2 InputDirection;
 
 	protected override void BeforeReady()
 	{
@@ -36,23 +38,29 @@ public partial class Player : StatefulEntity<State, Player>, IAttacker
 				{ State.Normal,  new NormalState() },
 				{ State.Attacking,  new AttackingState() },
 				{ State.InKnockback,  new InKnockbackState() },
+				{ State.Dashing,  new DashingState() },
 			},
 			this
 		);
 	}
 
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		InputDirection = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
 		var velocity = Velocity;
-		if (StateManager.CurrentStateEnum != State.InKnockback)
+		if (StateManager.CurrentStateEnum is not (State.InKnockback or  State.Dashing))
 		{
 			
-			var direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-			if (direction != Vector2.Zero)
+			if (InputDirection != Vector2.Zero)
 			{
-				velocity = direction.Normalized() * Speed;
+				velocity = InputDirection.Normalized() * Speed;
 
 			}
 			else
