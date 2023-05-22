@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Shuuut.Scripts;
+using Shuuut.Scripts.Hurtbox;
 
 namespace Shuuut.World.Weapons;
 

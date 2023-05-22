@@ -1,18 +1,18 @@
 using Godot;
 
-namespace Shuuut.Scripts;
+namespace Shuuut.Scripts.Hitbox;
 
 public partial class Hitbox : Area2D
 {
     [Signal]
-    public delegate void OnHitboxHitEventHandler(Hurtbox hurtbox);
+    public delegate void OnHitboxHitEventHandler(Hurtbox.Hurtbox hurtbox);
 
     [Export] private CollisionShape2D _collisionShape2D;
     
     
     public void _on_area_entered(Area2D area)
     {
-        if (area is Hurtbox hurtbox)
+        if (area is Hurtbox.Hurtbox hurtbox)
         {
             EmitSignal(SignalName.OnHitboxHit, hurtbox);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 using Shuuut.Scripts;
+using Shuuut.Scripts.Hurtbox;
 using Shuuut.World.Weapons;
 using Shuuut.World.Zombies.States;
 

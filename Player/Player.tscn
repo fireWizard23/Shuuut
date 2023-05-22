@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dx7rh4g1lh8ne" path="res://Assets/Characters/Man Blue/manBlue_stand.png" id="2_n4e54"]
 [ext_resource type="PackedScene" uid="uid://8knc8vxvk1h1" path="res://World/Weapons/weapon_handler.tscn" id="3_v1ay4"]
 [ext_resource type="PackedScene" uid="uid://k2ri05oga4cr" path="res://World/Weapons/Knife.tscn" id="4_dtejd"]
-[ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/hurtbox.tscn" id="5_qiyv2"]
+[ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/Hurtbox/hurtbox.tscn" id="5_qiyv2"]
 [ext_resource type="Script" path="res://World/HealthController.cs" id="6_xnxd5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y5eki"]

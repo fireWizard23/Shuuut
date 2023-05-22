@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://World/Weapons/Knife.cs" id="1_vp4vs"]
 [ext_resource type="Texture2D" uid="uid://0ok4jomow4is" path="res://Assets/knife.png" id="2_aquni"]
-[ext_resource type="PackedScene" uid="uid://j2648ewboi8t" path="res://Scripts/hitbox.tscn" id="3_xrbon"]
+[ext_resource type="PackedScene" uid="uid://j2648ewboi8t" path="res://Scripts/Hitbox/hitbox.tscn" id="3_xrbon"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ti6lk"]
 radius = 3.06987

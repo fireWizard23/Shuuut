@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://t56vlmdsrqm6"]
 
 [ext_resource type="Script" path="res://World/Zombies/ZombieController.cs" id="1_s4mqb"]
-[ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/hurtbox.tscn" id="2_2ax57"]
+[ext_resource type="PackedScene" uid="uid://ht2alqa7f206" path="res://Scripts/Hurtbox/hurtbox.tscn" id="2_2ax57"]
 [ext_resource type="Texture2D" uid="uid://byvuta14p71gq" path="res://Assets/Characters/Zombie 1/zoimbie1_hold.png" id="2_ev2b3"]
 [ext_resource type="Script" path="res://World/HealthController.cs" id="4_tuw6m"]
 [ext_resource type="PackedScene" uid="uid://8knc8vxvk1h1" path="res://World/Weapons/weapon_handler.tscn" id="5_xwfhe"]

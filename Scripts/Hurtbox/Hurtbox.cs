@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Shuuut.Scripts;
+namespace Shuuut.Scripts.Hurtbox;
 
 public partial class DamageInfo : Godot.GodotObject
 {

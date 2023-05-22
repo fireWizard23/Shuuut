@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 using Shuuut.Scripts;
+using Shuuut.Scripts.Hurtbox;
 using Shuuut.World.Weapons;
 
 public partial class Fist : BaseMeleeWeapon

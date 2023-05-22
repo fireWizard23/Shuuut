@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Shuuut.Player.States;
 using Shuuut.Scripts;
+using Shuuut.Scripts.Hurtbox;
 using Shuuut.World;
 using Shuuut.World.Weapons;
 using Shuuut.World.Zombies;
