@@ -23,8 +23,8 @@ public partial class Pathfinding : Node
 	private TileMap _tileMap;
 
 	private readonly Dictionary<Vector2I, ColorRect> _cells = new();
-    
-    
+	private Vector2I _offset;
+
 
 	public override void _Ready()
 	{
@@ -41,7 +41,11 @@ public partial class Pathfinding : Node
 		this._tileMap = tile;
 		_mapSize = tile.GetUsedRect().Size;
 		_cellSize = tile.TileSet.TileSize;
+		_offset = tile.GetUsedRect().Position;
 		_aStar.Size = _mapSize;
+
+		_aStar.Update();
+
 		foreach (var usedCell in tile.GetUsedCells(0))
 		{
 			var rect = new ColorRect();
@@ -52,7 +56,6 @@ public partial class Pathfinding : Node
 			_cells.Add(usedCell, rect);
 		}
 	    
-		_aStar.Update();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -66,7 +69,7 @@ public partial class Pathfinding : Node
 				var cells = tilemap.GetUsedCells(0);
 				foreach (var cell in cells)
 				{
-					_aStar.SetPointSolid(cell);
+					_aStar.SetPointSolid(cell - _offset);
 					this._cells[cell].Color = _disabledColor;
 				}
 			}
@@ -101,13 +104,13 @@ public partial class Pathfinding : Node
 	{
 		var halfCellSize = _cellSize / 2;
 		var half = new Vector2(Mathf.Sign(id.X) * halfCellSize.X, Mathf.Sign(id.Y) * halfCellSize.Y);
-		    
+		id += _offset;
 		return (id * _cellSize) + half;
 	}
 
 	public Vector2I ToId(Vector2 globalPos)
 	{
-		return _tileMap.LocalToMap(_tileMap.ToLocal(globalPos));
+		return _tileMap.LocalToMap(_tileMap.ToLocal(globalPos)) - _offset;
 	}
 
 	public Vector2I? GetClosestId(Vector2 worldPos)
