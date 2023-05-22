@@ -5,6 +5,8 @@ namespace Shuuut.World.Zombies.States;
 internal class AttackingState : BaseState<State, ZombieController>
 {
     private bool _canAttack = true;
+
+    private Task weaponAnim;
     
     public override void OnEnter()
     {
@@ -20,12 +22,13 @@ internal class AttackingState : BaseState<State, ZombieController>
             return;
         }
         _canAttack = false;
-        await Task.Delay(100);
+        await Task.Delay(500);
         if (StateManager.CurrentStateEnum != State.Attacking)
         {
             return;
         }
-        await Parent.WeaponHandler.UseWeapon();
+        weaponAnim = Parent.WeaponHandler.UseWeapon();
+        await weaponAnim;
         _canAttack = true;
     }
 
@@ -37,6 +40,10 @@ internal class AttackingState : BaseState<State, ZombieController>
         {
             case false when Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f:
                 ChangeState(State.Idle);
+                if (weaponAnim.IsCompleted)
+                {
+                    _canAttack = true;
+                }
                 break;
             case true:
                 Attack();
