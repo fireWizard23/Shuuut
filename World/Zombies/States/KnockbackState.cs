@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Godot;
 
 namespace Shuuut.World.Zombies.States;
@@ -23,7 +24,7 @@ internal class KnockbackState : BaseState<State, ZombieController>
         
         _distanceTraveled = 0;
         _shouldExit = true;
-        await Parent.ToSignal(Parent.GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+        await Task.Delay(250);
         _shouldExit = false;
         ChangeState(State.Idle);
     }
