@@ -8,6 +8,13 @@ using Shuuut.World.Weapons;
 public partial class Fist : BaseMeleeWeapon
 {
 	private uint _mask;
+
+	public override void _Ready()
+	{
+		base._Ready();
+		Handler.CurrentState = State.Ready;
+	}
+
 	public override async Task Sheath()
 	{
 	}

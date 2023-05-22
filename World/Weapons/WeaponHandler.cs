@@ -6,7 +6,7 @@ namespace Shuuut.World.Weapons;
 
 
 
-enum State
+public enum State
 {
 	InSheath,
 	Ready
@@ -20,7 +20,7 @@ public partial class WeaponHandler : Node2D
 	public bool OwnerCanRotate = true;
 
 
-	private State _currentState = State.InSheath;
+	public State CurrentState = State.InSheath;
 
 	public float WeaponDistanceFromHandler => _weaponDistanceFromHandler * Constants.Tile.Size;
 
@@ -45,16 +45,16 @@ public partial class WeaponHandler : Node2D
 	{
 		await _knife.Sheath();
 		await _knife.OnUnequip();
-		_currentState = State.InSheath;
+		CurrentState = State.InSheath;
 	}
 
 	public async Task UseWeapon()
 	{
-		switch (_currentState)
+		switch (CurrentState)
 		{
 			case State.InSheath:
 				await EquipWeapon();
-				_currentState = State.Ready;
+				CurrentState = State.Ready;
 				await _knife.UnSheath();
 				break;
 			case State.Ready:
