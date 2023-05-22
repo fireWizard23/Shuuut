@@ -1,7 +1,4 @@
-﻿
-
-
-using Godot;
+﻿using Godot;
 
 namespace Shuuut.World;
 

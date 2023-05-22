@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Godot;
-using Microsoft.VisualBasic;
+﻿using System.Threading.Tasks;
 
 namespace Shuuut.World.Zombies.States;
 
@@ -9,7 +6,7 @@ internal class AttackingState : BaseState<State, ZombieController>
 {
     private bool _canAttack = true;
     
-    public override async void OnEnter()
+    public override void OnEnter()
     {
         base.OnEnter();
         Parent.DesiredVelocity *= 0;
@@ -26,7 +23,6 @@ internal class AttackingState : BaseState<State, ZombieController>
         await Task.Delay(100);
         if (StateManager.CurrentStateEnum != State.Attacking)
         {
-            // _canAttack = true;
             return;
         }
         await Parent.WeaponHandler.UseWeapon();

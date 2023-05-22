@@ -1,9 +1,5 @@
 using Godot;
-using System;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
-using Shuuut.Scripts;
 using Shuuut.Scripts.Hurtbox;
 
 namespace Shuuut.World.Weapons;
@@ -26,7 +22,6 @@ public partial class Knife : BaseMeleeWeapon
 	public override async Task Sheath()
 	{
 		
-		//Hide();
 		await CurrentAnimation.WaitAsync();
 		var tween = GetTree().CreateTween().BindNode(this).SetTrans(Tween.TransitionType.Linear).SetParallel();
 		tween.TweenProperty(this, "modulate:a", 0, 0.25f);

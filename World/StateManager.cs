@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Godot;
-using Shuuut.World.Zombies;
 
 namespace Shuuut.World;
 
