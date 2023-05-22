@@ -166,13 +166,13 @@ internal partial class ZombieController : StatefulEntity<State, ZombieController
 	}
 
 
-	public void _on_health_on_health_zero()
+	private void _on_health_on_health_zero()
 	{
 		Destroy();
 	}
-	
 
-	public void _on_hurtbox_on_hurt(DamageInfo damageInfo)
+
+	private void _on_hurtbox_on_hurt(DamageInfo damageInfo)
 	{
 		HealthController.ReduceHealth(damageInfo.Damage);
 		this.KnockbackInfo = new KnockbackInfo()

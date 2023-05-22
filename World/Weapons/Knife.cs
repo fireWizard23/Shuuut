@@ -88,11 +88,9 @@ public partial class Knife : BaseMeleeWeapon
 		Rotation = 0;
 
 	}
-	
 
 
-
-	public void _on_hitbox_on_hitbox_hit(Hurtbox hurtbox)
+	private void _on_hitbox_on_hitbox_hit(Hurtbox hurtbox)
 	{
 		hurtbox.Hurt(new()
 		{
