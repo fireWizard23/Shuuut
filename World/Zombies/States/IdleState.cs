@@ -20,13 +20,12 @@ internal class IdleState : BaseState<State, ZombieController>
             return;
         }
 
-        if (StateManager.PreviousStateEnum is State.Wandering or State.Chasing)
-        {
-            await Task.Delay(Parent.Rng.RandiRange(1000, 2000));
-            if (StateManager.CurrentStateEnum != State.Idle) return;
-            ChangeState(State.Wandering);
-        }
+        if (StateManager.PreviousStateEnum is not (State.Wandering or State.Chasing)) return;
         
-        
+        await Task.Delay(Parent.Rng.RandiRange(1000, 2000));
+        if (StateManager.CurrentStateEnum != State.Idle) return;
+        ChangeState(State.Wandering);
+
+
     }
 }

@@ -33,13 +33,14 @@ internal class AttackingState : BaseState<State, ZombieController>
     {
         base.PhysicsProcess(delta);
         Parent.LookAt(Parent.Target.GlobalPosition);
-        if (!_canAttack && Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f)
+        switch (_canAttack)
         {
-            ChangeState(State.Idle);
-        } 
-        else if (_canAttack)
-        {
-            Attack();
+            case false when Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f:
+                ChangeState(State.Idle);
+                break;
+            case true:
+                Attack();
+                break;
         }
     }
 }
