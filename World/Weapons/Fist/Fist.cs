@@ -50,6 +50,8 @@ public partial class Fist : BaseMeleeWeapon
 				hurtbox.Hurt(new(){ Damage = 10, Source = this});
 			}
 		}
+
+		await Task.Delay(1000);
 	}
 
 	public override void _Process(double delta)
