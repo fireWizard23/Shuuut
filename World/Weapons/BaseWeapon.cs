@@ -44,12 +44,12 @@ public abstract partial class BaseWeapon : Node2D
     
     public async Task OnEquip()
     {
-        Enable(IsEquipped);
+        Enable();
     }
 
     public async Task OnUnequip()
     {
-        Enable(IsEquipped);
+        Enable(false);
     }
 
 }
