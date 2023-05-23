@@ -14,13 +14,13 @@ radius = 11.4018
 radius = 9.0
 height = 42.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weaponHandler", "_healthController")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_healthController", "_weaponHandler")]
 collision_layer = 2
 collision_mask = 19
 motion_mode = 1
 script = ExtResource("1_a2go8")
-_weaponHandler = NodePath("WeaponHandler")
 _healthController = NodePath("Health")
+_weaponHandler = NodePath("WeaponHandler")
 AttackMask = 9
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
