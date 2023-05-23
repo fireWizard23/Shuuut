@@ -47,8 +47,8 @@ public class StateManager<T, K> where T : struct, Enum where K : Node
         CurrentStateEnum = newState;
         PreviousState = CurrentState;
         CurrentState = _allStates[newState];
-        CurrentState?.OnEnter();
         PreviousState?.OnExit();
+        CurrentState?.OnEnter();
     }
 
     public void Ready()
