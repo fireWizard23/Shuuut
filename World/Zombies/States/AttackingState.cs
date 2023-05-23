@@ -15,6 +15,15 @@ internal class AttackingState : BaseState<State, ZombieController>
         Attack();
     }
 
+    public override void OnExit()
+    {
+        base.OnExit();
+        if (weaponAnim is { IsCompleted: true })
+        {
+            _canAttack = true;
+        }
+    }
+
     private async void Attack()
     {
         if (!_canAttack)
@@ -40,10 +49,6 @@ internal class AttackingState : BaseState<State, ZombieController>
         {
             case false when Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f:
                 ChangeState(State.Idle);
-                if (weaponAnim is { IsCompleted: true })
-                {
-                    _canAttack = true;
-                }
                 break;
             case true:
                 Attack();
