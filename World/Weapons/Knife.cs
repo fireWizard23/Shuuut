@@ -13,7 +13,7 @@ public partial class Knife : BaseMeleeWeapon
 
 	public override async Task Use()
 	{
-		if (CurrentAnimation.CurrentCount != 0 && Input.IsActionJustPressed("attack") && !_isAttacking)
+		if (CurrentAnimation.CurrentCount != 0  && !_isAttacking)
 		{
 			await Attack();
 		}
@@ -86,7 +86,6 @@ public partial class Knife : BaseMeleeWeapon
 		CurrentAnimation.Release();
 		_isAttacking = false;
 		Rotation = 0;
-
 	}
 
 
