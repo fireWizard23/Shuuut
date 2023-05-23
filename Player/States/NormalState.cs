@@ -3,7 +3,7 @@ using Shuuut.World;
 
 namespace Shuuut.Player.States;
 
-internal class NormalState : BaseState<State, Player>
+public class NormalState : BaseState<State, Player>
 {
 
     public override void Process(double delta)

@@ -22,13 +22,13 @@ public partial class Player : StatefulEntity<State, Player>, IAttacker
 	[Export]
 	public float Speed = 100.0f;
 	[Export] private HealthController _healthController;
-	[Export] internal WeaponHandler _weaponHandler;
+	[Export] public WeaponHandler _weaponHandler;
 	[Export(PropertyHint.Layers2DPhysics)] public uint AttackMask { get; set;}
 
 
-	internal float DashLength = Constants.Tile.Size;
-	internal KnockbackInfo KnockbackInfo;
-	internal Vector2 InputDirection;
+	public float DashLength = Constants.Tile.Size;
+	public KnockbackInfo KnockbackInfo;
+	public Vector2 InputDirection;
 
 	protected override void BeforeReady()
 	{

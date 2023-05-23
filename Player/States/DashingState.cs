@@ -4,7 +4,7 @@ using Shuuut.World;
 
 namespace Shuuut.Player.States;
 
-internal class DashingState : BaseState<State, Player>
+public class DashingState : BaseState<State, Player>
 {
     private bool _shouldExit;
     private float _distanceTraveled;

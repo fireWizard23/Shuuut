@@ -31,7 +31,7 @@ public partial class Pathfinding : Node
 		base._Ready();
 		Instance = this;
 		_aStar.DiagonalMode = AStarGrid2D.DiagonalModeEnum.OnlyIfNoObstacles;
-
+		Input.MouseMode =  Input.MouseModeEnum.ConfinedHidden;
 
 	}
 

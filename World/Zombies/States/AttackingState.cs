@@ -2,7 +2,7 @@
 
 namespace Shuuut.World.Zombies.States;
 
-internal class AttackingState : BaseState<State, ZombieController>
+public class AttackingState : BaseState<State, ZombieController>
 {
     private bool _canAttack = true;
 

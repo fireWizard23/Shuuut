@@ -3,7 +3,7 @@ using Godot;
 
 namespace Shuuut.World.Zombies.States;
 
-internal class KnockbackState : BaseState<State, ZombieController>
+public class KnockbackState : BaseState<State, ZombieController>
 {
     private float _distanceTraveled;
 

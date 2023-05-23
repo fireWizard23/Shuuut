@@ -2,7 +2,7 @@
 
 namespace Shuuut.World.Zombies.States;
 
-internal class WanderingState : BaseState<State, ZombieController> 
+public class WanderingState : BaseState<State, ZombieController> 
 {
 
     private Vector2 _targetPosition;

@@ -2,7 +2,7 @@
 
 namespace Shuuut.World.Zombies.States;
 
-internal class IdleState : BaseState<State, ZombieController>
+public class IdleState : BaseState<State, ZombieController>
 {
     
     public override async void OnEnter()

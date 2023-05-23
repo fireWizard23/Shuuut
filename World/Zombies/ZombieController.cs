@@ -16,7 +16,7 @@ public interface IAttacker
 	public uint AttackMask { get; set; }
 }
 
-internal enum State
+public enum State
 {
 	Idle,
 	Chasing,
@@ -26,7 +26,7 @@ internal enum State
 }
 
 
-internal partial class ZombieController : StatefulEntity<State, ZombieController>, IAttacker
+public partial class ZombieController : StatefulEntity<State, ZombieController>, IAttacker
 {
 
 	[Export] public float MovementSpeed { get; private set; } = 100;

@@ -4,7 +4,7 @@ using Shuuut.World;
 
 namespace Shuuut.Player.States;
 
-internal class InKnockbackState : BaseState<State, Player>
+public class InKnockbackState : BaseState<State, Player>
 {
     private bool _shouldExit;
     private float _distanceTraveled;
