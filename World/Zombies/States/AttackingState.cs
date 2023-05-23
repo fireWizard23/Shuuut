@@ -40,7 +40,7 @@ internal class AttackingState : BaseState<State, ZombieController>
         {
             case false when Parent.GlobalPosition.DistanceTo(Parent.Target.GlobalPosition) > Constants.Tile.Size * 0.8f:
                 ChangeState(State.Idle);
-                if (weaponAnim.IsCompleted)
+                if (weaponAnim is { IsCompleted: true })
                 {
                     _canAttack = true;
                 }
