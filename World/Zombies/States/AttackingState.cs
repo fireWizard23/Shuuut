@@ -31,7 +31,7 @@ internal class AttackingState : BaseState<State, ZombieController>
             return;
         }
         _canAttack = false;
-        await Task.Delay(500);
+        await Task.Delay(200);
         if (StateManager.CurrentStateEnum != State.Attacking)
         {
             return;
